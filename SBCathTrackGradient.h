@@ -18,7 +18,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SBPulsePlugin.h"
 
-@interface SBCartesianReadout : SBPulsePlugin <SBReadoutSharedParameters> {
+@interface SBCathTrackGradient : SBPulsePlugin <SBReadoutSharedParameters> {
 	
 	double start;
 	double fov;

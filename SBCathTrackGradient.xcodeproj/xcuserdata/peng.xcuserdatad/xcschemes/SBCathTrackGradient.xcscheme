@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "SBCartesianReadout.sbplugin"
-               BlueprintName = "SBCartesianReadout"
-               ReferencedContainer = "container:SBCartesianReadout.xcodeproj">
+               BuildableName = "SBCathTrackGradient.sbplugin"
+               BlueprintName = "SBCathTrackGradient"
+               ReferencedContainer = "container:SBCathTrackGradient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

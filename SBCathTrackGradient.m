@@ -15,7 +15,7 @@
  
  ***************************************************************************/
 
-#import "SBCartesianReadout.h"
+#import "SBCathTrackGradient.h"
 #import "SBPulseData.h"
 #import "SBParamsObject.h"
 #import "SBTrapezoid.h"
@@ -37,7 +37,7 @@
 #define hasPhaseEncodingInit YES
 #define hasRewinderInit NO
 
-@implementation SBCartesianReadout
+@implementation SBCathTrackGradient
 
 -(id)initWithPropertyList:(NSMutableDictionary *)_plist params:(SBParamsObject *)_params {
   /* moved here to allow loading files in which coverages are not specified */
@@ -107,7 +107,7 @@
 
 + (NSString *)humanReadablePluginName
 {
-	return @"Cartesian Readout";
+	return @"CathTrack Readout";
 }
 
 -(void)destroyNib

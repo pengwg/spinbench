@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C83AF100AF6A34B00DE7C8E /* InspectorPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0C83AF0F0AF6A34B00DE7C8E /* InspectorPane.nib */; };
-		0C8F9FDF0C3DB98B00426FB9 /* SBCartesianReadout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F9FDE0C3DB98B00426FB9 /* SBCartesianReadout.m */; };
+		0C8F9FDF0C3DB98B00426FB9 /* SBCathTrackGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F9FDE0C3DB98B00426FB9 /* SBCathTrackGradient.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -24,13 +24,13 @@
 		0C73FE2D0EDA0CFA00FF0630 /* SBPulseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBPulseData.h; sourceTree = "<group>"; };
 		0C83AF0F0AF6A34B00DE7C8E /* InspectorPane.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = InspectorPane.nib; sourceTree = "<group>"; };
 		0C8C27060C39ABF50008717F /* SBPulsePlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBPulsePlugin.h; sourceTree = "<group>"; };
-		0C8F9FDD0C3DB98B00426FB9 /* SBCartesianReadout.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBCartesianReadout.h; sourceTree = "<group>"; };
-		0C8F9FDE0C3DB98B00426FB9 /* SBCartesianReadout.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SBCartesianReadout.m; sourceTree = "<group>"; };
-		0CA092510AF1B835003D1F18 /* SBCartesianReadout.sbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SBCartesianReadout.sbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C8F9FDD0C3DB98B00426FB9 /* SBCathTrackGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBCathTrackGradient.h; sourceTree = "<group>"; };
+		0C8F9FDE0C3DB98B00426FB9 /* SBCathTrackGradient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SBCathTrackGradient.m; sourceTree = "<group>"; };
+		0CA092510AF1B835003D1F18 /* SBCartesianReadout.sbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SBCartesianReadout.sbplugin; path = SBCathTrackGradient.sbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA0D4900E9D5F9200787CCA /* SBReadoutTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBReadoutTag.h; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B8B6213E1641DDEA008E4080 /* SBCartesianReadout copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "SBCartesianReadout copy-Info.plist"; path = "/Users/peng/Desktop/SpinBench 1.3.2/SB_RTH_Plugin_Programming_Kit/PulsePlugins/SBCartesianReadout/SBCartesianReadout copy-Info.plist"; sourceTree = "<absolute>"; };
+		B8B6213E1641DDEA008E4080 /* SBCathTrackGradient copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SBCathTrackGradient copy-Info.plist"; sourceTree = "<group>"; };
 		B8B6213F1641E2B2008E4080 /* SBOptimizedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBOptimizedGradient.h; sourceTree = "<group>"; };
 		B8B621401641E2D0008E4080 /* SBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBFunctions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -47,16 +47,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		089C166AFE841209C02AAC07 /* SBCartesianReadout */ = {
+		089C166AFE841209C02AAC07 /* SBCathTrackGradient */ = {
 			isa = PBXGroup;
 			children = (
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				B8B6213E1641DDEA008E4080 /* SBCartesianReadout copy-Info.plist */,
+				B8B6213E1641DDEA008E4080 /* SBCathTrackGradient copy-Info.plist */,
 			);
-			name = SBCartesianReadout;
+			name = SBCathTrackGradient;
 			sourceTree = "<group>";
 		};
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
@@ -82,8 +82,8 @@
 			isa = PBXGroup;
 			children = (
 				0C55212A0C88F478007982FF /* include */,
-				0C8F9FDD0C3DB98B00426FB9 /* SBCartesianReadout.h */,
-				0C8F9FDE0C3DB98B00426FB9 /* SBCartesianReadout.m */,
+				0C8F9FDD0C3DB98B00426FB9 /* SBCathTrackGradient.h */,
+				0C8F9FDE0C3DB98B00426FB9 /* SBCathTrackGradient.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -132,9 +132,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D5B49AC048680CD000E48DA /* SBCartesianReadout */ = {
+		8D5B49AC048680CD000E48DA /* SBCathTrackGradient */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "SBCartesianReadout" */;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "SBCathTrackGradient" */;
 			buildPhases = (
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
@@ -144,9 +144,9 @@
 			);
 			dependencies = (
 			);
-			name = SBCartesianReadout;
+			name = SBCathTrackGradient;
 			productInstallPath = "$(HOME)/Library/Bundles";
-			productName = SBCartesianReadout;
+			productName = SBCathTrackGradient;
 			productReference = 0CA092510AF1B835003D1F18 /* SBCartesianReadout.sbplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
@@ -155,18 +155,18 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "SBCartesianReadout" */;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "SBCathTrackGradient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 089C166AFE841209C02AAC07 /* SBCartesianReadout */;
+			mainGroup = 089C166AFE841209C02AAC07 /* SBCathTrackGradient */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D5B49AC048680CD000E48DA /* SBCartesianReadout */,
+				8D5B49AC048680CD000E48DA /* SBCathTrackGradient */,
 			);
 		};
 /* End PBXProject section */
@@ -188,7 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C8F9FDF0C3DB98B00426FB9 /* SBCartesianReadout.m in Sources */,
+				0C8F9FDF0C3DB98B00426FB9 /* SBCathTrackGradient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,7 +218,7 @@
 					"-undefined",
 					dynamic_lookup,
 				);
-				PRODUCT_NAME = SBCartesianReadout;
+				PRODUCT_NAME = SBCathTrackGradient;
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = sbplugin;
@@ -237,7 +237,7 @@
 					"-undefined",
 					dynamic_lookup,
 				);
-				PRODUCT_NAME = SBCartesianReadout;
+				PRODUCT_NAME = SBCathTrackGradient;
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = sbplugin;
@@ -287,7 +287,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "SBCartesianReadout" */ = {
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "SBCathTrackGradient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Debug */,
@@ -296,7 +296,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "SBCartesianReadout" */ = {
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "SBCathTrackGradient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Debug */,

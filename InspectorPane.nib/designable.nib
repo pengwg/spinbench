@@ -31,7 +31,7 @@
 		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="827997529">
 			<object class="NSCustomObject" id="1073400943">
-				<string key="NSClassName">SBCartesianReadout</string>
+				<string key="NSClassName">SBCathTrackGradient</string>
 			</object>
 			<object class="NSCustomObject" id="130549988">
 				<string key="NSClassName">FirstResponder</string>
@@ -1701,7 +1701,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">SBCartesianReadout</string>
+					<string key="className">SBCathTrackGradient</string>
 					<string key="superclassName">SBPulsePlugin</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="kxCoverageSlider">id</string>
@@ -1739,7 +1739,7 @@
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/SBCartesianReadout.h</string>
+						<string key="minorKey">./Classes/SBCathTrackGradient.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
