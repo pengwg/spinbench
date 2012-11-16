@@ -101,8 +101,7 @@
 				0C5523A90C890339007982FF /* SBAnchorController.h */,
 				0C5523AA0C890339007982FF /* SBTrapezoid.h */,
 			);
-			name = include;
-			path = ../../include;
+			path = include;
 			sourceTree = "<group>";
 		};
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
