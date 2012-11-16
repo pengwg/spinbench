@@ -9,12 +9,12 @@ set(${PROJECT_NAME}_SRCS
 IF(NOT APPLE)
 include_directories(/usr/include/GNUstep)
 ENDIF(NOT APPLE)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 ADD_DEFINITIONS(-Wall -Wextra -Wno-unused-parameter -Werror)
 
 ADD_DEFINITIONS(-DGNUSTEP)
-ADD_SUBDIRECTORY(tests)
+# ADD_SUBDIRECTORY(tests)
 
 if (NOT SBWaveGen_SRCS)
   find_package(SBWaveGen REQUIRED)
