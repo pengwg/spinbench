@@ -22,24 +22,10 @@
 
     double start;
     double fov;
-    float kxCoverage;
-    float kyCoverage;
-    int xRes, yRes;
-    double netArea;
+    int samples;
+    int numShots;
     double readoutStartOffset,readoutEndOffset,endOffset;
-    BOOL hasPhaseEncoding;
-    BOOL hasRewinder;
     
-    IBOutlet id kxPercentFormatter;
-    IBOutlet id kyPercentFormatter;
-
-    IBOutlet id kxCoverageSlider;
-    IBOutlet id kxCoverageTextValue;
-    IBOutlet id kyCoverageSlider;
-    IBOutlet id kyCoverageTextValue;
 }
-
-- (void)setXRes:(float)val;
-- (void)setYRes:(float)val;
 
 @end
