@@ -26,7 +26,7 @@
 #import <math.h>
 
 
-#define fovInit 24.0f
+#define fovInit 40.0f
 #define samplesInit 256
 #define numShotsInit 3
 
@@ -37,7 +37,7 @@
 
 @implementation SBCathTrackGradient
 
--(id)initWithPropertyList:(NSMutableDictionary *)_plist params:(SBParamsObject *)_params {
+- (id)initWithPropertyList:(NSMutableDictionary *)_plist params:(SBParamsObject *)_params {
     self = [super initWithPropertyList:_plist params:_params];
     if(self) {
         if(!_plist) {
@@ -55,12 +55,12 @@
     return self;
 }
 
--(NSArray *)attributeKeys
+- (NSArray *)attributeKeys
 {
     return [[NSArray arrayWithObjects:@"fov",@"samples",@"numShots",nil] arrayByAddingObjectsFromArray:[super attributeKeys]];
 }
 
--(NSString *)unitsOf:(NSString *)paramName
+- (NSString *)unitsOf:(NSString *)paramName
 {
     if([paramName isEqualToString:@"fov"]) return @"cm";
     else if([paramName isEqualToString:@"samples"]) return @"";
@@ -68,7 +68,7 @@
     return [super unitsOf:paramName];
 }
 
--(NSArray *)observedAttributeKeys
+- (NSArray *)observedAttributeKeys
 {
     return [[NSArray arrayWithObjects:@"gamma",@"readSamplingRate",@"receiverPhase",nil] arrayByAddingObjectsFromArray:[super observedAttributeKeys]];
 }
@@ -88,7 +88,7 @@
     return @"CathTrack Readout";
 }
 
--(void)destroyNib
+- (void)destroyNib
 {
     [super destroyNib];
 }
@@ -114,36 +114,23 @@
     }
 
     autoCalculateOnAttributeChange = savedAutoCalculateOnAttributeChange;
-/*
-    // CALCULATE FREQUENCY ENCODE TIMINGS
-    float kxCoverageRounded = ceilf(xRes*kxCoverage)/xRes;
-    double readPlateauDuration = xRes*kxCoverageRounded/localReadSamplingRate;
 
+    double readPlateauDuration = samples / localReadSamplingRate;
+    double plateauArea = readPlateauAmp * readPlateauDuration;
 
-    // CALCULATE PHASE ENCODE TIMINGS
-    double peArea = hasPhaseEncoding?1000.0/fov/localGamma*(double)yRes/2.0:0.0;
-
-    SBOptimizedGradient *prewinder = [SBOptimizedGradient gradientWithAxes:2];
+    SBOptimizedGradient *prewinder = [SBOptimizedGradient gradientWithAxes:1];
     [prewinder setLimitsForPulse:self interval:@"preReadout" constraints:SBScalableConstraint];
-    //[prewinder setAxis:0 startValue:0.0 endValue:readPlateauAmp area:-readPlateauAmp*readPlateauDuration/2.0];
-    [prewinder setAxis:0 startValue:0.0 endValue:readPlateauAmp area:-readPlateauAmp*readPlateauDuration*(kxCoverageRounded-0.5f)/kxCoverageRounded];
-    [prewinder setAxis:1 startValue:0.0 endValue:0.0 area:peArea];
+    [prewinder setAxis:0 startValue:0.0 endValue:readPlateauAmp area:-plateauArea/2.0];
+//    [prewinder setAxis:1 startValue:0.0 endValue:0.0 area:peArea];
 
-    SBOptimizedGradient *rewinder = [SBOptimizedGradient gradientWithAxes:2];
+    SBOptimizedGradient *rewinder = [SBOptimizedGradient gradientWithAxes:1];
     [rewinder setLimitsForPulse:self interval:@"postReadout" constraints:SBScalableConstraint];
-    if(hasRewinder) {
-        double postArea = -readPlateauAmp*readPlateauDuration/kxCoverageRounded/2.0 - netArea*readPlateauAmp*readPlateauDuration;
-        [rewinder setAxis:0 startValue:readPlateauAmp endValue:0.0 area:postArea];
-    } else {
-        [rewinder setAxis:0 startValue:readPlateauAmp endValue:0.0];
-    }
-    [rewinder setAxis:1 startValue:0.0 endValue:0.0 area:-peArea];
+    [rewinder setAxis:0 startValue:readPlateauAmp endValue:0.0 area:-plateauArea/2.0];
+//    [rewinder setAxis:1 startValue:0.0 endValue:0.0 area:-peArea];
 
-    // CALCULATE ANCHOR TIMINGS
-    // constrain prewinder size to 2us boundaries (should be 2*systemclock)
+    // constrain to 2us boundaries
     readoutStartOffset = ceil([prewinder duration]*500.0)/500.0f;
     readoutEndOffset = readoutStartOffset+readPlateauDuration;
-    // constrain rewinder size to 2us boundaries (should be 2*systemclock)
     endOffset = readoutEndOffset+ceil([rewinder duration]*500.0)/500.0f;
 
     //changing anchor timings might make it necessary to update the position.  do that here.
@@ -160,10 +147,9 @@
     SBPlateau(readPlateauAmp, startOffset+readoutStartOffset, readPlateauDuration, timeStep, data[0], numPoints);
     [rewinder generateWaveformsWithStartTime:startOffset+readoutEndOffset dataArray:data dataArrayLength:numPoints];
     [super calculateOutput];
-*/
 }
 
--(BOOL)validateStart:(id *)valObj error:(NSError **)outError
+- (BOOL)validateStart:(id *)valObj error:(NSError **)outError
 {
     if([*valObj doubleValue] < 0.0)
         *valObj = [NSNumber numberWithDouble:0.0];
@@ -183,7 +169,7 @@
     }
 }
 
--(BOOL)validateFov:(id *)valObj error:(NSError **)outError
+- (BOOL)validateFov:(id *)valObj error:(NSError **)outError
 {
     double readGradLimit = [self gradLimitMagnitudeForInterval:@"readout"];
     if(*valObj == nil) *valObj = [NSNumber numberWithDouble:fov];
@@ -193,7 +179,7 @@
     return YES;
 }
 
--(BOOL)validateSamples:(id *)valObj error:(NSError **)outError
+- (BOOL)validateSamples:(id *)valObj error:(NSError **)outError
 {
     if(*valObj == nil) *valObj = [NSNumber numberWithDouble:samples];
     double val = [*valObj doubleValue];
@@ -216,12 +202,14 @@
 {
     //float kxCoverageRounded = ceilf(xRes*kxCoverage)/xRes;
     //return start + (readoutStartOffset + (kxCoverageRounded-0.5f)*(readoutEndOffset-readoutStartOffset)/kxCoverageRounded);
+    return 0;
 }
 
 - (double)readoutCenter
 {
     //float kxCoverageRounded = ceilf(xRes*kxCoverage)/xRes;
     //return start + (readoutStartOffset + (kxCoverageRounded-0.5f)*(readoutEndOffset-readoutStartOffset)/kxCoverageRounded);
+    return 0;
 }
 
 - (void)setReadoutCenter:(double)val
@@ -261,12 +249,12 @@
     return res/[params readSamplingRate];
 }
 */
--(NSArray *)viewIndexKeys
+- (NSArray *)viewIndexKeys
 {
     return [NSArray arrayWithObject:@"index"];
 }
 
--(NSMutableArray *)tagsForTrNum:(int)trNum of:(int)numTr
+- (NSMutableArray *)tagsForTrNum:(int)trNum of:(int)numTr
 {
     SBReadoutTag *tag = [SBReadoutTag tag];
     [tag setPluginName:[self editableName]];
@@ -321,6 +309,7 @@
         [outData setScaleFactor:thisScale forGradAxis:0];
         return outData;
     } else return nil;*/
+    return nil;
 }
 
 
