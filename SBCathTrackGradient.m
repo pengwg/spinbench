@@ -161,7 +161,7 @@
     // override this function to indicate the number of unique axes you need for each pulse type
     switch(type) {
     case SBGrad:
-        return 2;
+        return 3;
         break;
     default:
         return 0;
@@ -200,22 +200,17 @@
 
 - (double)readoutReferencePoint
 {
-    //float kxCoverageRounded = ceilf(xRes*kxCoverage)/xRes;
-    //return start + (readoutStartOffset + (kxCoverageRounded-0.5f)*(readoutEndOffset-readoutStartOffset)/kxCoverageRounded);
-    return 0;
+    return start + (readoutStartOffset + 0.5*(readoutEndOffset-readoutStartOffset));
 }
 
 - (double)readoutCenter
 {
-    //float kxCoverageRounded = ceilf(xRes*kxCoverage)/xRes;
-    //return start + (readoutStartOffset + (kxCoverageRounded-0.5f)*(readoutEndOffset-readoutStartOffset)/kxCoverageRounded);
-    return 0;
+    return start + (readoutStartOffset + 0.5*(readoutEndOffset-readoutStartOffset));
 }
 
 - (void)setReadoutCenter:(double)val
 {
-    //float kxCoverageRounded = ceilf(xRes*kxCoverage)/xRes;
-    //start = val - (readoutStartOffset + (kxCoverageRounded-0.5f)*(readoutEndOffset-readoutStartOffset)/kxCoverageRounded);
+    start = val - (readoutStartOffset + 0.5*(readoutEndOffset-readoutStartOffset));
 }
 
 - (double)readoutEnd
@@ -243,12 +238,6 @@
     return samples;
 }
 
-/*
--(double)plateauDuration
-{
-    return res/[params readSamplingRate];
-}
-*/
 - (NSArray *)viewIndexKeys
 {
     return [NSArray arrayWithObject:@"index"];
@@ -264,25 +253,21 @@
     [tag setPhase:[params receiverPhase]];
     [tag setSamplingRate:[params readSamplingRate]];
     [tag setViewIndex:trNum of:numTr forKey:@"index" object:self];
+
     float *tagRes = [tag resolution];
     tagRes[0] = fov*10.0/samples;
     tagRes[1] = fov*10.0/samples;
     float *tagFov = [tag fov];
     tagFov[0] = fov;
     tagFov[1] = fov*numTr/samples;
+
     float **kSpace = [tag allocateKSpaceWithLength:samples];
     float *kSpaceDensity = [tag kSpaceDensity];
-    //float kyCoverageRounded = ceilf(yRes*kyCoverage)/yRes;
-    //double thisYPos = hasPhaseEncoding?((double)yRes/(double)xRes*0.5*((double)trNum/(((double)numTr/kyCoverageRounded)/2.0)-1.0)):0.0;
-    // to match EPI convention, which allows for shorter TE
-    // from -1 to 1-delta for full kspace, -0.xx to 1-delta for partial k-space
-    //double thisYPos = hasPhaseEncoding?((double)yRes/(double)xRes*0.5*(1.0+2.0*kyCoverageRounded*(((double)trNum)/(double)numTr - 1.0))):0.0;
-
     int i;
-     for(i=0;i<samples;i++) {
+    for(i = 0; i < samples; i++) {
         /* sampling time is defined at the center of the acquisition */
         kSpace[0][i] = 0.5*((double)i/(((double)samples)/2.0)-1.0);
-    //    kSpace[1][i] = thisYPos;
+        kSpace[1][i] = 0.0;
         kSpace[2][i] = 0.0;
         kSpaceDensity[i] = 1.0;
     }
@@ -299,20 +284,14 @@
 
 - (SBPulseData *)trDependentPulseDataForTrNum:(int)trNum of:(int)numTr
 {
-    /*if (hasPhaseEncoding) {
-        SBPulseData *outData = [pulseData subDataWithGradAxis:1];
-        float kyCoverageRounded = ceilf(yRes*kyCoverage)/yRes;
-        // to match EPI convention, which allows for shorter TE, see above
-        //double thisScale = ((double)trNum/(((double)numTr/kyCoverageRounded)/2.0)-1.0);
-        double thisScale = 1.0+2.0*kyCoverageRounded*(((double)trNum)/(double)numTr - 1.0);
-
-        [outData setScaleFactor:thisScale forGradAxis:0];
-        return outData;
-    } else return nil;*/
-    return nil;
+    SBPulseData *outData = [pulseData subDataWithGradAxis:1];
+    [outData setScaleFactor:1 forGradAxis:0];
+    return outData;
 }
 
-
-
+- (void)setNumShots:(int)val
+{
+    numShots = val;
+}
 
 @end
