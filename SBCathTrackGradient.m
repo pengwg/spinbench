@@ -118,15 +118,17 @@
     double readPlateauDuration = samples / localReadSamplingRate;
     double plateauArea = readPlateauAmp * readPlateauDuration;
 
-    SBOptimizedGradient *prewinder = [SBOptimizedGradient gradientWithAxes:1];
+    SBOptimizedGradient *prewinder = [SBOptimizedGradient gradientWithAxes:3];
     [prewinder setLimitsForPulse:self interval:@"preReadout" constraints:SBScalableConstraint];
     [prewinder setAxis:0 startValue:0.0 endValue:readPlateauAmp area:-plateauArea/2.0];
-//    [prewinder setAxis:1 startValue:0.0 endValue:0.0 area:peArea];
+    [prewinder setAxis:1 startValue:0.0 endValue:readPlateauAmp area:-plateauArea/2.0];
+    [prewinder setAxis:2 startValue:0.0 endValue:readPlateauAmp area:-plateauArea/2.0];
 
-    SBOptimizedGradient *rewinder = [SBOptimizedGradient gradientWithAxes:1];
+    SBOptimizedGradient *rewinder = [SBOptimizedGradient gradientWithAxes:3];
     [rewinder setLimitsForPulse:self interval:@"postReadout" constraints:SBScalableConstraint];
     [rewinder setAxis:0 startValue:readPlateauAmp endValue:0.0 area:-plateauArea/2.0];
-//    [rewinder setAxis:1 startValue:0.0 endValue:0.0 area:-peArea];
+    [rewinder setAxis:1 startValue:readPlateauAmp endValue:0.0 area:-plateauArea/2.0];
+    [rewinder setAxis:2 startValue:readPlateauAmp endValue:0.0 area:-plateauArea/2.0];
 
     // constrain to 2us boundaries
     readoutStartOffset = ceil([prewinder duration]*500.0)/500.0f;
@@ -144,7 +146,11 @@
     [pulseData setNumPoints:numPoints startPosition:startPosition setToZero:YES];
     float **data = [pulseData gradData];
     [prewinder generateWaveformsWithStartTime:startOffset+readoutStartOffset-[prewinder duration] dataArray:data dataArrayLength:numPoints];
+
     SBPlateau(readPlateauAmp, startOffset+readoutStartOffset, readPlateauDuration, timeStep, data[0], numPoints);
+    SBPlateau(readPlateauAmp, startOffset+readoutStartOffset, readPlateauDuration, timeStep, data[1], numPoints);
+    SBPlateau(readPlateauAmp, startOffset+readoutStartOffset, readPlateauDuration, timeStep, data[2], numPoints);
+
     [rewinder generateWaveformsWithStartTime:startOffset+readoutEndOffset dataArray:data dataArrayLength:numPoints];
     [super calculateOutput];
 }
@@ -279,14 +285,13 @@
 
 - (SBPulseData *)trIndependentPulseData
 {
-    return [pulseData subDataWithGradAxis:0];
+    // return [pulseData subDataWithGradAxis:0];
+    return nil;
 }
 
 - (SBPulseData *)trDependentPulseDataForTrNum:(int)trNum of:(int)numTr
 {
-    SBPulseData *outData = [pulseData subDataWithGradAxis:1];
-    [outData setScaleFactor:1 forGradAxis:0];
-    return outData;
+    return [pulseData subDataWithGradAxis:trNum%numShots];
 }
 
 - (void)setNumShots:(int)val
