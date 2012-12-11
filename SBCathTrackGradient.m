@@ -279,13 +279,16 @@
 
 - (SBPulseData *)trIndependentPulseData
 {
-    //return [pulseData subDataWithGradAxis:0];
+    // return [pulseData subDataWithGradAxis:0];
     return nil;
 }
 
 - (SBPulseData *)trDependentPulseDataForTrNum:(int)trNum of:(int)numTr
 {
-    return [pulseData subDataWithGradAxis:trNum%numShots];
+    SBPulseData *outData;
+    outData = [SBPulseData pulseDataEqualTo:[pulseData subDataWithGradAxis:0]];
+    return [pulseData subDataWithGradAxis:0];
+    // return outData;
 }
 
 - (void)setNumShots:(int)val
