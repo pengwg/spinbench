@@ -45,19 +45,19 @@
 					<object class="NSTextField" id="207736994">
 						<reference key="NSNextResponder" ref="547939134"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{163, 203}, {40, 22}}</string>
+						<string key="NSFrame">{{163, 203}, {40, 20}}</string>
 						<reference key="NSSuperview" ref="547939134"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="92568469"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="839399358">
 							<int key="NSCellFlags">-1800404927</int>
-							<int key="NSCellFlags2">71304192</int>
+							<int key="NSCellFlags2">71435264</int>
 							<string key="NSContents"/>
-							<object class="NSFont" key="NSSupport" id="950307147">
+							<object class="NSFont" key="NSSupport" id="26">
 								<string key="NSName">LucidaGrande</string>
-								<double key="NSSize">13</double>
-								<int key="NSfFlags">1044</int>
+								<double key="NSSize">11</double>
+								<int key="NSfFlags">3100</int>
 							</object>
 							<string key="NSPlaceholderString">samples</string>
 							<reference key="NSControlView" ref="207736994"/>
@@ -86,16 +86,15 @@
 					<object class="NSComboBox" id="802401067">
 						<reference key="NSNextResponder" ref="547939134"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{93, 157}, {113, 26}}</string>
+						<string key="NSFrame">{{93, 161}, {113, 22}}</string>
 						<reference key="NSSuperview" ref="547939134"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSComboBoxCell" key="NSCell" id="328855480">
 							<int key="NSCellFlags">342884416</int>
-							<int key="NSCellFlags2">272630784</int>
+							<int key="NSCellFlags2">272761856</int>
 							<string key="NSContents"/>
-							<reference key="NSSupport" ref="950307147"/>
+							<reference key="NSSupport" ref="26"/>
 							<string key="NSPlaceholderString">num of shots</string>
 							<reference key="NSControlView" ref="802401067"/>
 							<bool key="NSDrawsBackground">YES</bool>
@@ -147,7 +146,7 @@
 										<object class="NSTextFieldCell" key="NSDataCell">
 											<int key="NSCellFlags">338690112</int>
 											<int key="NSCellFlags2">1024</int>
-											<reference key="NSSupport" ref="950307147"/>
+											<reference key="NSSupport" ref="26"/>
 											<reference key="NSControlView" ref="433941913"/>
 											<bool key="NSDrawsBackground">YES</bool>
 											<object class="NSColor" key="NSBackgroundColor" id="148613259">
@@ -178,7 +177,7 @@
 										<bytes key="NSWhite">MC41AA</bytes>
 									</object>
 								</object>
-								<double key="NSRowHeight">19</double>
+								<double key="NSRowHeight">16</double>
 								<string key="NSAction">tableViewAction:</string>
 								<int key="NSTvFlags">-765427712</int>
 								<reference key="NSDelegate" ref="328855480"/>
@@ -284,11 +283,7 @@
 							<int key="NSCellFlags">-1800404927</int>
 							<int key="NSCellFlags2">71435264</int>
 							<string key="NSContents"/>
-							<object class="NSFont" key="NSSupport">
-								<string key="NSName">LucidaGrande</string>
-								<double key="NSSize">11</double>
-								<int key="NSfFlags">3100</int>
-							</object>
+							<reference key="NSSupport" ref="26"/>
 							<string key="NSPlaceholderString">fov</string>
 							<reference key="NSControlView" ref="896578413"/>
 							<bool key="NSDrawsBackground">YES</bool>

@@ -44,8 +44,8 @@
             [pulseData setNoOverlapForInterval:@"readout"];
             float **gradTransform = [pulseData gradTransform];
             gradTransform[0][0] = xComponentInit; gradTransform[0][1] = yComponentInit; gradTransform[0][2] = zComponentInit;
-            gradTransform[1][0] = zComponentInit; gradTransform[1][1] = xComponentInit; gradTransform[1][2] = yComponentInit;
-
+            // gradTransform[1][0] = zComponentInit; gradTransform[1][1] = xComponentInit; gradTransform[1][2] = yComponentInit;
+            
             fov = fovInit;
             samples = samplesInit;
             numShots = numShotsInit;
@@ -146,6 +146,9 @@
     SBPlateau(readPlateauAmp, startOffset+readoutStartOffset, readPlateauDuration, timeStep, data[0], numPoints);
 
     [rewinder generateWaveformsWithStartTime:startOffset+readoutEndOffset dataArray:data dataArrayLength:numPoints];
+    
+    // memcpy(data[1], data[0], numPoints * sizeof(float));
+    
     [super calculateOutput];
 }
 
@@ -161,7 +164,7 @@
     // override this function to indicate the number of unique axes you need for each pulse type
     switch(type) {
     case SBGrad:
-        return 3;
+        return 1;
         break;
     default:
         return 0;
@@ -261,16 +264,16 @@
     tagFov[0] = fov;
     tagFov[1] = fov*numTr/samples;
 
-    float **kSpace = [tag allocateKSpaceWithLength:samples];
+    /* float **kSpace = [tag allocateKSpaceWithLength:samples];
     float *kSpaceDensity = [tag kSpaceDensity];
     int i;
     for(i = 0; i < samples; i++) {
-        /* sampling time is defined at the center of the acquisition */
+        // sampling time is defined at the center of the acquisition 
         kSpace[0][i] = 0.5*((double)i/(((double)samples)/2.0)-1.0);
         kSpace[1][i] = 0.0;
         kSpace[2][i] = 0.0;
         kSpaceDensity[i] = 1.0;
-    }
+    } */
 
     NSMutableArray *outArray = [super tagsForTrNum:trNum of:numTr];
     [outArray addObject:tag];
@@ -285,10 +288,27 @@
 
 - (SBPulseData *)trDependentPulseDataForTrNum:(int)trNum of:(int)numTr
 {
-    SBPulseData *outData;
-    outData = [SBPulseData pulseDataEqualTo:[pulseData subDataWithGradAxis:0]];
-    return [pulseData subDataWithGradAxis:0];
-    // return outData;
+    // SBPulseData *outData = [pulseData subDataWithGradAxis:0];
+    float **outTransform = [pulseData gradTransform];
+    outTransform[0][0] = 0;
+    outTransform[0][1] = 0;
+    outTransform[0][2] = 0;
+    
+    switch (numShots) {
+        case 3:
+            outTransform[0][trNum%3] = 1;
+            break;
+        case 4:
+            outTransform[0][0] = -powf(-1, trNum&0x1 ^ trNum>>1);
+            outTransform[0][1] = -powf(-1, trNum);
+            outTransform[0][2] = -powf(-1, trNum>>1);
+            break;
+        case 6:
+            outTransform[0][trNum/2 % 3] = powf(-1, trNum);
+            break;
+    }
+    
+    return pulseData;
 }
 
 - (void)setNumShots:(int)val
