@@ -299,7 +299,7 @@
             outTransform[0][trNum%3] = 1;
             break;
         case 4:
-            outTransform[0][0] = -powf(-1, trNum&0x1 ^ trNum>>1);
+            outTransform[0][0] = -powf(-1, (trNum&1) + (trNum>>1));
             outTransform[0][1] = -powf(-1, trNum);
             outTransform[0][2] = -powf(-1, trNum>>1);
             break;
