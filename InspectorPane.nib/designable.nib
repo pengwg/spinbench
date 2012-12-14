@@ -42,11 +42,10 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="111076094">
 						<reference key="NSNextResponder" ref="547939134"/>
-						<int key="NSvFlags">268</int>
+						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{163, 157}, {40, 22}}</string>
 						<reference key="NSSuperview" ref="547939134"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="982122096">
 							<int key="NSCellFlags">-1800404927</int>
@@ -83,7 +82,7 @@
 					</object>
 					<object class="NSSlider" id="744046904">
 						<reference key="NSNextResponder" ref="547939134"/>
-						<int key="NSvFlags">268</int>
+						<int key="NSvFlags">256</int>
 						<string key="NSFrame">{{69, 159}, {83, 26}}</string>
 						<reference key="NSSuperview" ref="547939134"/>
 						<reference key="NSWindow"/>

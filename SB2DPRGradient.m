@@ -290,24 +290,14 @@
 {
     // SBPulseData *outData = [pulseData subDataWithGradAxis:0];
     float **outTransform = [pulseData gradTransform];
-    outTransform[0][0] = 0;
-    outTransform[0][1] = 0;
+    
+    int prjNum = trNum % numProjections;
+    float angle = (float)prjNum / numProjections * 2 * M_PI;
+    
+    outTransform[0][0] = cosf(angle);
+    outTransform[0][1] = sinf(angle);
     outTransform[0][2] = 0;
-    
-    /*switch (numShots) {
-        case 3:
-            outTransform[0][trNum%3] = 1;
-            break;
-        case 4:
-            outTransform[0][0] = -powf(-1, (trNum&1) + (trNum>>1));
-            outTransform[0][1] = -powf(-1, trNum);
-            outTransform[0][2] = -powf(-1, trNum>>1);
-            break;
-        case 6:
-            outTransform[0][trNum/2 % 3] = powf(-1, trNum);
-            break;
-    }*/
-    
+
     return pulseData;
 }
 

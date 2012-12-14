@@ -30,7 +30,7 @@
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B80BABE8167BCD320097B36D /* SB2DPRGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SB2DPRGradient.h; sourceTree = "<group>"; };
 		B80BABEA167BCD440097B36D /* SB2DPRGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SB2DPRGradient.m; sourceTree = "<group>"; };
-		B8B6213E1641DDEA008E4080 /* SBCathTrackGradient copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SBCathTrackGradient copy-Info.plist"; sourceTree = "<group>"; };
+		B8B6213E1641DDEA008E4080 /* SB2DPRGradient copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SB2DPRGradient copy-Info.plist"; sourceTree = "<group>"; };
 		B8B6213F1641E2B2008E4080 /* SBOptimizedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBOptimizedGradient.h; sourceTree = "<group>"; };
 		B8B621401641E2D0008E4080 /* SBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBFunctions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,7 +54,7 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				B8B6213E1641DDEA008E4080 /* SBCathTrackGradient copy-Info.plist */,
+				B8B6213E1641DDEA008E4080 /* SB2DPRGradient copy-Info.plist */,
 			);
 			name = SB2DPRGradient;
 			sourceTree = "<group>";
@@ -253,6 +253,7 @@
 					x86_64,
 				);
 				BUNDLE_LOADER = /Applications/SpinBench.app/Contents/MacOS/SpinBench;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "~/Library/Application Support/SpinBench/";
@@ -273,6 +274,7 @@
 					x86_64,
 				);
 				BUNDLE_LOADER = /Applications/SpinBench.app/Contents/MacOS/SpinBench;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "~/Library/Application Support/SpinBench/";
