@@ -294,18 +294,21 @@
     outTransform[0][1] = 0;
     outTransform[0][2] = 0;
     
+    int shotNum = trNum % numShots;
     switch (numShots) {
         case 3:
-            outTransform[0][trNum%3] = 1;
+            outTransform[0][shotNum] = 1;
             break;
         case 4:
-            outTransform[0][0] = -powf(-1, (trNum&1) + (trNum>>1));
-            outTransform[0][1] = -powf(-1, trNum);
-            outTransform[0][2] = -powf(-1, trNum>>1);
+            outTransform[0][0] = -powf(-1, (shotNum&1) + (shotNum>>1));
+            outTransform[0][1] = -powf(-1, shotNum);
+            outTransform[0][2] = -powf(-1, shotNum>>1);
             break;
         case 6:
-            outTransform[0][trNum/2 % 3] = powf(-1, trNum);
+            outTransform[0][shotNum/2] = powf(-1, shotNum);
             break;
+        default:
+            outTransform[0][0] = 1;
     }
     
     return pulseData;
