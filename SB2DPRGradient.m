@@ -264,16 +264,20 @@
     tagFov[0] = fov;
     tagFov[1] = fov*numTr/samples;
 
-    /* float **kSpace = [tag allocateKSpaceWithLength:samples];
+    float **kSpace = [tag allocateKSpaceWithLength:samples];
     float *kSpaceDensity = [tag kSpaceDensity];
+
+    int prjNum = trNum % numProjections;
+    float angle = (float)prjNum / numProjections * M_PI;
+    
     int i;
     for(i = 0; i < samples; i++) {
-        // sampling time is defined at the center of the acquisition 
-        kSpace[0][i] = 0.5*((double)i/(((double)samples)/2.0)-1.0);
-        kSpace[1][i] = 0.0;
-        kSpace[2][i] = 0.0;
-        kSpaceDensity[i] = 1.0;
-    } */
+        kSpace[0][i] = 2.0 * i / samples * cosf(angle) - 1;
+        kSpace[1][i] = 2.0 * i / samples * sinf(angle) - 1;
+        kSpace[2][i] = 0;
+        
+        kSpaceDensity[i] = fabsf(2.0 * i / samples - 1);
+    }
 
     NSMutableArray *outArray = [super tagsForTrNum:trNum of:numTr];
     [outArray addObject:tag];
@@ -292,7 +296,7 @@
     float **outTransform = [pulseData gradTransform];
     
     int prjNum = trNum % numProjections;
-    float angle = (float)prjNum / numProjections * 2 * M_PI;
+    float angle = (float)prjNum / numProjections * M_PI;
     
     outTransform[0][0] = cosf(angle);
     outTransform[0][1] = sinf(angle);
