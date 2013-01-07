@@ -26,7 +26,7 @@
 		0C8C27060C39ABF50008717F /* SBPulsePlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBPulsePlugin.h; sourceTree = "<group>"; };
 		0C8F9FDD0C3DB98B00426FB9 /* SBCathTrackGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBCathTrackGradient.h; sourceTree = "<group>"; };
 		0C8F9FDE0C3DB98B00426FB9 /* SBCathTrackGradient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SBCathTrackGradient.m; sourceTree = "<group>"; };
-		0CA092510AF1B835003D1F18 /* SBCartesianReadout.sbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SBCartesianReadout.sbplugin; path = SBCathTrackGradient.sbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CA092510AF1B835003D1F18 /* SBCathTrackGradient.sbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SBCathTrackGradient.sbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA0D4900E9D5F9200787CCA /* SBReadoutTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBReadoutTag.h; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0CA092510AF1B835003D1F18 /* SBCartesianReadout.sbplugin */,
+				0CA092510AF1B835003D1F18 /* SBCathTrackGradient.sbplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,7 +147,7 @@
 			name = SBCathTrackGradient;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = SBCathTrackGradient;
-			productReference = 0CA092510AF1B835003D1F18 /* SBCartesianReadout.sbplugin */;
+			productReference = 0CA092510AF1B835003D1F18 /* SBCathTrackGradient.sbplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
