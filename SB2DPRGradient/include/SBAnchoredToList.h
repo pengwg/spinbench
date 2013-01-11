@@ -17,12 +17,11 @@
 
 #import <Cocoa/Cocoa.h>
 @class SBPropertyListPlugin;
-//@class NSComboBox;
 
 /**
  *   @class       SBAnchoredToList 
  *   @brief       Manages a list of anchors and a currently selected anchor
- *   @details     Provides a mechanism for choosing anchors from a list for plugin use.  The currently selected anchor from the list is maintained here, and a supplied NSComboBox can be bound to the proper observers.  See #SBReadoutInterval and #SBRFFrequency for examples of usage.
+ *   @details     Provides a mechanism for choosing anchors from a list for plugin use.  The currently selected anchor from the list is maintained here, and a supplied NSPopUpButton can be bound to the proper observers.  See #SBReadoutInterval and #SBRFFrequency for examples of usage.
  *   @author      HeartVista, Inc.
  *   @see         SBPulsePlugin
  *   @see         SBSequencePlugin
@@ -39,7 +38,7 @@
 	NSString *selectedSBKeyKey;
 	id selectedOwner;
 	
-	NSComboBox *comboBox;
+	NSPopUpButton *popUpButton;
 }
 
 /**
@@ -78,9 +77,9 @@
 - (void)setSelectedKey:(NSString *)selectedAnchorKey;
 
 /**
- *    @brief     Connects observers and bindings to the provided NSComboBox
+ *    @brief     Connects observers and bindings to the provided NSPopUpButton
  */
-- (BOOL)addObserversWithComboBox:(NSComboBox *)box;
+- (BOOL)addObserversWithPopUpButton:(NSPopUpButton *)box;
 
 /**
  *    @brief     Disonnects observers and bindings

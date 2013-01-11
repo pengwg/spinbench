@@ -37,10 +37,17 @@ typedef enum SBEndianEnum {
 
 static const float SBFloatZerosArray[MAX_GRAD_AXES] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 static const float SBFloatOnesArray[MAX_GRAD_AXES] = {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
-void SBMessage(int debugLevel, NSString *format,...);
-void SBErrorMessage(NSString *format,...);
+#if defined(__APPLE__)
+  // unfortunately these format specifiers have a bug on gcc-linux (gcc-bug 53905)
+  void SBMessage(int debugLevel, NSString *format,...) __attribute__((format(__NSString__, 2, 3)));
+  void SBErrorMessage(NSString *format,...) __attribute__((format(__NSString__, 1, 2)));
+#else
+  void SBMessage(int debugLevel, NSString *format,...);
+  void SBErrorMessage(NSString *format,...);
+#endif
+
 // sinc function.  SBSinc(x) = sin(pi*x)/(pi*x)
-double SBSinc(double x);
+double SBSinc(double x) __attribute__((const));
 
 /**
  *    @brief     Concatenate two bytes into a short
@@ -94,9 +101,9 @@ BOOL invert3x3(double matrix[][3]);
   int SolveDiminishedQuartic  (double c[ 5 ],double s[ 4 ]);
   int SolveQuartic            (double c[ 5 ],double s[ 4 ]);
 
-  int maxint( int a, int b );
+  int maxint( int a, int b ) __attribute__((const));
     
-  int minint( int a, int b );
+  int minint( int a, int b ) __attribute__((const));
     
   float bessi0( float x);   
     

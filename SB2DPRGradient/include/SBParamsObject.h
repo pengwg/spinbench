@@ -44,6 +44,7 @@
   double gamma; /**< @brief Gyromagnetic ratio (Hz/G) */
   double rfLimit; /**< @brief Maximum RF amplitude (G) */
   double gradLimit; /**< @brief Maximum gradient amplitude (G/cm) */
+  double nominalGradLimitScale; /**< @brief Nominal gradient amplitude scale factor */
   double gradLimitXScale; /**< @brief Scale factor for gradient amplitude limit, X component */
   double gradLimitYScale; /**< @brief Scale factor for gradient amplitude limit, Y component */
   double gradLimitZScale; /**< @brief Scale factor for gradient amplitude limit, Z component */
@@ -137,6 +138,15 @@
  *    @details   The actual gradient magnitude limit on each axis is the product of this scale factor and #gradLimit.
  */
 -(void)setGradLimitZScale:(double)val;
+
+/**
+ *    @brief     Set the Nominal gradient magnitude limit scale factor
+ *    @details   This sets the fraction of the maximum gradient amplitude that should be used for pulse waveforms where a specific gradient magnitude is not required.  For example, a specific gradient area may be needed in a pulse sequence without constraint on the waveshape required.  Setting this fraction below 1.0 will instruct SpinBench to create such pulses using a smaller gradient maximum.  This may be helpful to minimize the un-necessary application of dB/dt, and may also be useful for minimization of heating in certain gradient hardware.  This limit is multiplicative with gradLimit, gradLimitXScale, gradLimitYScale, and gradLimitZScale.
+
+      @param val must be positive and less than or equal to 1.0.
+*/
+-(void)setNominalGradLimitScale:(double)val;
+
 /**
  *    @brief     Set the Gradient slew rate limit (G/cm/ms)
  *    @details   The gradient slew rate limit should be set to the maximum safe value for the hardware system and also based upon patient dB/dt limits.  If the hardware limit is not equal for all gradient coils, then scale factors can be set through #setSlewRateLimitXScale:, #setSlewRateLimitYScale:, and #setSlewRateLimitZScale: such that the actual limit on each axis is the product of the scale factor and this slew limit.  Regulatory limits on dB/dt should be specified for each axis through the product of this value and #slewMagLimitXScale, #slewMagLimitYScale, and #slewMagLimitZScale.  The #chronaxie property may also be set to help speed up some pulses that don't reach full-scale gradient magnitude.  These products specify the radii of an ellipsoid ensuring safety limits are respected in all directions.  For example, if regulatory limits dictate a maximum slew rate of 20 G/cm/ms, and hardware limits dictate a maximum of 15 G/cm/ms on all axes, then setting gradLimit=20, slewMagLimit?Scale=1.0, and slewRateLimit?Scale=0.75 will ensure both hardware and patient safety.  If #freelyRotatable is set, then the gradient slew rate will be constrained to the lowest acceptable value.
@@ -326,6 +336,15 @@
 -(double)gradLimitXScale; /**< @brief Scale factor for gradient amplitude limit, X component */
 -(double)gradLimitYScale; /**< @brief Scale factor for gradient amplitude limit, Y component */
 -(double)gradLimitZScale; /**< @brief Scale factor for gradient amplitude limit, Z component */
+
+/**
+ *    @brief     The Nominal gradient magnitude limit scale factor
+ *    @details   The fraction of the maximum gradient amplitude that should be used for pulse waveforms where a specific gradient magnitude is not required.  For example, a specific gradient area may be needed in a pulse sequence without constraint on the waveshape required.  Setting this fraction below 1.0 will instruct SpinBench to create such pulses using a smaller gradient maximum.  This may be helpful to minimize the un-necessary application of dB/dt, and may also be useful for minimization of heating in certain gradient hardware.  This limit is multiplicative with gradLimit, gradLimitXScale, gradLimitYScale, and gradLimitZScale.
+
+ This value must be positive and less than or equal to 1.0.
+ */
+-(double)nominalGradLimitScale;
+
 /**
  *    @brief     The gradient slew rate limit (G/cm/ms)
  *    @details   The gradient slew rate limit should be set to the maximum safe value for the hardware system and also based upon patient dB/dt limits.  If the hardware limit is not equal for all gradient coils, then scale factors can be set through #setSlewRateLimitXScale:, #setSlewRateLimitYScale:, and #setSlewRateLimitZScale: such that the actual limit on each axis is the product of the scale factor and this slew limit.  For the voltage model of slew rate, set #slewRateLimitXSlope, #slewRateLimitYSlope and #slewRateLimitZSlope appropriately to allow slew rates higher than the fixed limit depending on gradient magnitude.  Regulatory limits on dB/dt should be specified for each axis through the product of this value and #slewMagLimitXScale, #slewMagLimitYScale, and #slewMagLimitZScale.  The #chronaxie property may also be set to help speed up some pulses that don't reach full-scale gradient magnitude.  These products specify the radii of an ellipsoid ensuring safety limits are respected in all directions.  For example, if regulatory limits dictate a maximum slew rate of 20 G/cm/ms, and hardware limits dictate a maximum of 15 G/cm/ms on all axes, then setting gradLimit=20, slewMagLimit?Scale=1.0, and slewRateLimit?Scale=0.75 will ensure both hardware and patient safety.  If #freelyRotatable is set, then the gradient slew rate will be constrained to the lowest acceptable value.

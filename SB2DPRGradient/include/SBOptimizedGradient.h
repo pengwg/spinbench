@@ -25,16 +25,17 @@
 @class SBPulsePlugin;
 @class SBRotation;
 typedef enum {
-  SBNoConstraint        =0x00,
-  SBRotatableConstraint =0x01,
-  SBScalableConstraint  =0x10
+  SBNoConstraint                = 0x0000,
+  SBRotatableConstraint         = 0x0001,
+  SBScalableConstraint          = 0x0010,
+  SBNominalGradLimitConstraint  = 0x1000
 } SBGradientDesignConstraints;
 
 typedef enum {
-  SBOptimizeAxisUninitialized=0x000,
-  SBOptimizeAxisRamp         =0x001,
-  SBOptimizeAxisArea         =0x010,
-  SBOptimizeAxisMoment       =0x100
+  SBOptimizeAxisUninitialized = 0x000,
+  SBOptimizeAxisRamp          = 0x001,
+  SBOptimizeAxisArea          = 0x010,
+  SBOptimizeAxisMoment        = 0x100
 } SBOptimizedGradientAxisType;
 
 @interface SBOptimizedGradient : NSObject {
@@ -59,6 +60,7 @@ typedef enum {
   SBRotation *rotation;
   SBGradientDesignConstraints designConstraints;
   BOOL paramsFreelyRotatable;
+  uint64_t axisMask;
   
   double duration;
   double sa;
@@ -94,6 +96,10 @@ typedef enum {
 //                              pulses, one with positive phase-encoding and one with negative phase-encoding,
 //                              then take linear combinations of the two to get to each PE step...
 -(void)setLimitsForPulse:(SBPulsePlugin *)pulse interval:(NSString *)interval
+             constraints:(SBGradientDesignConstraints)constraints;
+
+-(void)setLimitsForPulse:(SBPulsePlugin *)pulse interval:(NSString *)interval
+                axisMask:(uint64_t)_axisMask
              constraints:(SBGradientDesignConstraints)constraints;
 
 -(double)amplitudeAtTime:(double)t onAxis:(int)axis;

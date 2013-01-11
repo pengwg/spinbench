@@ -21,7 +21,7 @@
 @class SBVariableAxis;
 
 #define XMINTICKS 4.0
-#define YMINTICKS 3.0
+#define YMINTICKS 4.0
 #define BL_EDGEPAD 5.0  //absolute
 #define TR_EDGEPAD 10.0 //absolute
 #define BETWEENPAD 5.0  //absolute
@@ -45,6 +45,7 @@ typedef struct _GraphInfo {
 	void *rawData;
 	id objects;
   id objectDrawingInfo;
+  id plotIndex;
 	int numSecondary;
 	BOOL yWrap;
 	BOOL xAxisEnabled;
@@ -56,6 +57,8 @@ typedef struct _GraphInfo {
 	BOOL dirty;
 	NSMutableArray *yTickValues;
 	NSMutableArray *yTickLabels;
+  NSMutableArray *areaRects;
+  NSMutableArray *areaRectColors;
 
 	NSTextField *yLabelTextBox;
 	NSTrackingRectTag yLabelTrackingRect;
@@ -140,6 +143,22 @@ typedef struct _GraphInfo {
 - (float)xRangeMax;
 - (float)yRangeMin:(int)grNum;
 - (float)yRangeMax:(int)grNum;
+
+/**
+ *    @brief     Adds an area rectangle to be displayed on a specific plot
+ *    @details   Area rectangles are specified in the units of the underlying graph, and they appear in the color specified by this method.  Area rectangles acccumulate when added by this method until they are cleared using -clearAreaRectsForGraph:.
+ *    @param rect Specifies the rectangle to be displayed, in graph units
+ *    @param color Specifies the color and transparency of the given rectangle
+ *    @param idx Specifies the graph index of the graph to be annotated with the rectangle.
+ */
+- (void)addAreaRect:(NSRect)rect color:(NSColor *)color forGraph:(int)idx;
+
+/**
+ *    @brief     Clears the collection of area rectangles for a specific plot
+ *    @details   Area rectangles added using addAreaRect:color:forGraph: may be cleared using this method.  There is currently no way to remove individual area rectangles.
+ *    @param idx Specifies the graph index of the graph whose area rectangles are to be removed.
+ */
+- (void)clearAreaRectsForGraph:(int)idx;
 
 - (void)setXAxis:(id)_xAxis; // argument can be either an SBVariableAxis or an NSString.  If it's a SBVariableAxis, then name editing and min/max scaling are enabled
 - (void)setYAxis:(id)_yAxis forGraph:(int)idx;
