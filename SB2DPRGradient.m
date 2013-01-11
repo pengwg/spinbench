@@ -272,8 +272,8 @@
     
     int i;
     for(i = 0; i < samples; i++) {
-        kSpace[0][i] = 2.0 * i / samples * cosf(angle) - 1;
-        kSpace[1][i] = 2.0 * i / samples * sinf(angle) - 1;
+        kSpace[0][i] = ((float)i / samples - 0.5) * cosf(angle);
+        kSpace[1][i] = ((float)i / samples - 0.5) * sinf(angle);
         kSpace[2][i] = 0;
         
         kSpaceDensity[i] = fabsf(2.0 * i / samples - 1);
