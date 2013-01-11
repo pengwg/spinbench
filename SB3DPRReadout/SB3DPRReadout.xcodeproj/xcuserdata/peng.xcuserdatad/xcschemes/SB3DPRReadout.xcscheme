@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D5B49AC048680CD000E48DA"
-               BuildableName = "SB2DPRGradient.sbplugin"
-               BlueprintName = "SB2DPRGradient"
-               ReferencedContainer = "container:SB2DPRGradient.xcodeproj">
+               BuildableName = "SB3DPRReadout.sbplugin"
+               BlueprintName = "SB3DPRReadout"
+               ReferencedContainer = "container:SB3DPRReadout.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -18,7 +18,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SBPulsePlugin.h"
 
-@interface SB2DPRGradient : SBPulsePlugin <SBReadoutSharedParameters> {
+@interface SB3DPRReadout : SBPulsePlugin <SBReadoutSharedParameters> {
 
     double start;
     double fov;

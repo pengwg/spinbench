@@ -4,12 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>SB2DPRGradient copy.xcscheme</key>
+		<key>SB3DPRReadout copy.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>SB2DPRGradient.xcscheme</key>
+		<key>SB3DPRReadout.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>

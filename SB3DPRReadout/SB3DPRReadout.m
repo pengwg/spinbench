@@ -15,7 +15,7 @@
  
  ***************************************************************************/
 
-#import "SB2DPRGradient.h"
+#import "SB3DPRReadout.h"
 #import "SBPulseData.h"
 #import "SBParamsObject.h"
 #import "SBTrapezoid.h"
@@ -35,7 +35,7 @@
 #define zComponentInit 0.00f
 
 
-@implementation SB2DPRGradient
+@implementation SB3DPRReadout
 
 - (id)initWithPropertyList:(NSMutableDictionary *)_plist params:(SBParamsObject *)_params {
     self = [super initWithPropertyList:_plist params:_params];

@@ -10,7 +10,7 @@
 		0C83AF100AF6A34B00DE7C8E /* InspectorPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0C83AF0F0AF6A34B00DE7C8E /* InspectorPane.nib */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		B80BABEB167BCD440097B36D /* SB2DPRGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = B80BABEA167BCD440097B36D /* SB2DPRGradient.m */; };
+		B854D803169FA8D2007D733E /* SB3DPRReadout.m in Sources */ = {isa = PBXBuildFile; fileRef = B854D802169FA8D2007D733E /* SB3DPRReadout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,13 +24,13 @@
 		0C73FE2D0EDA0CFA00FF0630 /* SBPulseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBPulseData.h; sourceTree = "<group>"; };
 		0C83AF0F0AF6A34B00DE7C8E /* InspectorPane.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = InspectorPane.nib; sourceTree = "<group>"; };
 		0C8C27060C39ABF50008717F /* SBPulsePlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBPulsePlugin.h; sourceTree = "<group>"; };
-		0CA092510AF1B835003D1F18 /* SB2DPRGradient.sbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SB2DPRGradient.sbplugin; path = SB2DPRGradient.sbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CA092510AF1B835003D1F18 /* SB2DPRGradient.sbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = SB2DPRGradient.sbplugin; path = SB3DPRReadout.sbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA0D4900E9D5F9200787CCA /* SBReadoutTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBReadoutTag.h; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B80BABE8167BCD320097B36D /* SB2DPRGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SB2DPRGradient.h; sourceTree = "<group>"; };
-		B80BABEA167BCD440097B36D /* SB2DPRGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SB2DPRGradient.m; sourceTree = "<group>"; };
-		B8B6213E1641DDEA008E4080 /* SB2DPRGradient copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SB2DPRGradient copy-Info.plist"; sourceTree = "<group>"; };
+		B854D801169FA8BE007D733E /* SB3DPRReadout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SB3DPRReadout.h; sourceTree = "<group>"; };
+		B854D802169FA8D2007D733E /* SB3DPRReadout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SB3DPRReadout.m; sourceTree = "<group>"; };
+		B8B6213E1641DDEA008E4080 /* SB3DPRReadout copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SB3DPRReadout copy-Info.plist"; sourceTree = "<group>"; };
 		B8B6213F1641E2B2008E4080 /* SBOptimizedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBOptimizedGradient.h; sourceTree = "<group>"; };
 		B8B621401641E2D0008E4080 /* SBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBFunctions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -47,16 +47,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		089C166AFE841209C02AAC07 /* SB2DPRGradient */ = {
+		089C166AFE841209C02AAC07 /* SB3DPRReadout */ = {
 			isa = PBXGroup;
 			children = (
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				B8B6213E1641DDEA008E4080 /* SB2DPRGradient copy-Info.plist */,
+				B8B6213E1641DDEA008E4080 /* SB3DPRReadout copy-Info.plist */,
 			);
-			name = SB2DPRGradient;
+			name = SB3DPRReadout;
 			sourceTree = "<group>";
 		};
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
@@ -82,8 +82,8 @@
 			isa = PBXGroup;
 			children = (
 				0C55212A0C88F478007982FF /* include */,
-				B80BABEA167BCD440097B36D /* SB2DPRGradient.m */,
-				B80BABE8167BCD320097B36D /* SB2DPRGradient.h */,
+				B854D801169FA8BE007D733E /* SB3DPRReadout.h */,
+				B854D802169FA8D2007D733E /* SB3DPRReadout.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -132,9 +132,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D5B49AC048680CD000E48DA /* SB2DPRGradient */ = {
+		8D5B49AC048680CD000E48DA /* SB3DPRReadout */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "SB2DPRGradient" */;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "SB3DPRReadout" */;
 			buildPhases = (
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
@@ -144,9 +144,9 @@
 			);
 			dependencies = (
 			);
-			name = SB2DPRGradient;
+			name = SB3DPRReadout;
 			productInstallPath = "$(HOME)/Library/Bundles";
-			productName = SB2DPRGradient;
+			productName = SB3DPRReadout;
 			productReference = 0CA092510AF1B835003D1F18 /* SB2DPRGradient.sbplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
@@ -155,18 +155,18 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "SB2DPRGradient" */;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "SB3DPRReadout" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 089C166AFE841209C02AAC07 /* SB2DPRGradient */;
+			mainGroup = 089C166AFE841209C02AAC07 /* SB3DPRReadout */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D5B49AC048680CD000E48DA /* SB2DPRGradient */,
+				8D5B49AC048680CD000E48DA /* SB3DPRReadout */,
 			);
 		};
 /* End PBXProject section */
@@ -188,7 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B80BABEB167BCD440097B36D /* SB2DPRGradient.m in Sources */,
+				B854D803169FA8D2007D733E /* SB3DPRReadout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,7 +218,7 @@
 					"-undefined",
 					dynamic_lookup,
 				);
-				PRODUCT_NAME = SB2DPRGradient;
+				PRODUCT_NAME = SB3DPRReadout;
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = sbplugin;
@@ -237,7 +237,7 @@
 					"-undefined",
 					dynamic_lookup,
 				);
-				PRODUCT_NAME = SB2DPRGradient;
+				PRODUCT_NAME = SB3DPRReadout;
 				SDKROOT = macosx;
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = sbplugin;
@@ -289,7 +289,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "SB2DPRGradient" */ = {
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "SB3DPRReadout" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913B08733D840010E9CD /* Debug */,
@@ -298,7 +298,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "SB2DPRGradient" */ = {
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "SB3DPRReadout" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB913F08733D840010E9CD /* Debug */,
