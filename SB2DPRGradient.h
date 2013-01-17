@@ -25,7 +25,7 @@
     int samples;
     int numProjections;
     double readoutStartOffset,readoutEndOffset,endOffset;
-    
+    double quantizationOffset;
 }
 
 @end
