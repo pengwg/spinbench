@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SBCathTrackGradient.xcodeproj">
+      location = "self:SB2DPRGradient.xcodeproj">
    </FileRef>
 </Workspace>

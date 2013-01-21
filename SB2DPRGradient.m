@@ -15,7 +15,7 @@
  
  ***************************************************************************/
 
-#import "SBCathTrackGradient.h"
+#import "SB2DPRGradient.h"
 #import "SBPulseData.h"
 #import "SBParamsObject.h"
 #import "SBTrapezoid.h"
@@ -28,14 +28,14 @@
 
 #define fovInit 40.0f
 #define samplesInit 256
-#define numShotsInit 3
+#define numProjectionsInit 128
 
 #define xComponentInit 1.00f
 #define yComponentInit 0.00f
 #define zComponentInit 0.00f
 
 
-@implementation SBCathTrackGradient
+@implementation SB2DPRGradient
 
 - (id)initWithPropertyList:(NSMutableDictionary *)_plist params:(SBParamsObject *)_params {
     self = [super initWithPropertyList:_plist params:_params];
@@ -48,7 +48,7 @@
             
             fov = fovInit;
             samples = samplesInit;
-            numShots = numShotsInit;
+            numProjections = numProjectionsInit;
         }
 
     }
@@ -57,14 +57,14 @@
 
 - (NSArray *)attributeKeys
 {
-    return [[NSArray arrayWithObjects:@"fov",@"samples",@"numShots",nil] arrayByAddingObjectsFromArray:[super attributeKeys]];
+    return [[NSArray arrayWithObjects:@"fov",@"samples",@"numProjections",nil] arrayByAddingObjectsFromArray:[super attributeKeys]];
 }
 
 - (NSString *)unitsOf:(NSString *)paramName
 {
     if([paramName isEqualToString:@"fov"]) return @"cm";
     else if([paramName isEqualToString:@"samples"]) return @"";
-    else if([paramName isEqualToString:@"numShots"]) return @"";
+    else if([paramName isEqualToString:@"numProjections"]) return @"";
     return [super unitsOf:paramName];
 }
 
@@ -85,7 +85,7 @@
 
 + (NSString *)humanReadablePluginName
 {
-    return @"CathTrack Readout";
+    return @"2DPR Readout";
 }
 
 - (void)destroyNib
@@ -294,29 +294,26 @@
     outTransform[0][1] = 0;
     outTransform[0][2] = 0;
     
-    int shotNum = trNum % numShots;
-    switch (numShots) {
+    /*switch (numShots) {
         case 3:
-            outTransform[0][shotNum] = 1;
+            outTransform[0][trNum%3] = 1;
             break;
         case 4:
-            outTransform[0][0] = -powf(-1, (shotNum&1) + (shotNum>>1));
-            outTransform[0][1] = -powf(-1, shotNum);
-            outTransform[0][2] = -powf(-1, shotNum>>1);
+            outTransform[0][0] = -powf(-1, (trNum&1) + (trNum>>1));
+            outTransform[0][1] = -powf(-1, trNum);
+            outTransform[0][2] = -powf(-1, trNum>>1);
             break;
         case 6:
-            outTransform[0][shotNum/2] = powf(-1, shotNum);
+            outTransform[0][trNum/2 % 3] = powf(-1, trNum);
             break;
-        default:
-            outTransform[0][0] = 1;
-    }
+    }*/
     
     return pulseData;
 }
 
-- (void)setNumShots:(int)val
+- (void)setNumProjections:(int)val
 {
-    numShots = val;
+    numProjections = val;
 }
 
 @end

@@ -18,12 +18,12 @@
 #import <Cocoa/Cocoa.h>
 #import "SBPulsePlugin.h"
 
-@interface SBCathTrackGradient : SBPulsePlugin <SBReadoutSharedParameters> {
+@interface SB2DPRGradient : SBPulsePlugin <SBReadoutSharedParameters> {
 
     double start;
     double fov;
     int samples;
-    int numShots;
+    int numProjections;
     double readoutStartOffset,readoutEndOffset,endOffset;
     
 }
