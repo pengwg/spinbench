@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+#
+# Copies a SpinBench plugin directory to a new location, and updates all
+#    references contained therein to the new plugin name.  Usage:
+#   
+# cpSBPlugin [orig_Plugin_name] new_Plugin_name
+#
+# if the optional first parameter is omitted, the original plugin defaults
+#    to the waveform-template plugin located in ./emptyWaveformPlugin/
+#
+# Copyright 2007 William R Overall.
+#
+
+shopt -s nullglob
+
+if [ $# -lt 1 ]
+# Test if command line called with no arguments.
+then
+    echo "USAGE: $0 [orig_Plugin_name] new_Plugin_name"
+    exit
+fi  
+
+if [ -n "$2" ]
+# Test if command line argument 2 present (non-empty).
+then
+    origName=$1
+    copyName=$2
+else  
+    origName=emptyWaveformPlugin # Default, if not specified on command line.
+    copyName=$1
+fi  
+
+if [ -e $origName -a -d $origName ]
+then
+    if [ -e $copyName ]
+    then
+        echo "$copyName: file or directory exists"
+	exit
+    fi
+
+    ################################
+    # updatenames function takes a dir and changes
+    # origName->copyName in all files contained (text of file + fname)
+    ################################
+
+    updatenames () {
+      # remove copied subversion directories from copies
+      for file in $1/.svn; do
+	rm -rf $file
+      done
+      for file in $1/*~.nib; do
+	rm -rf $file
+      done
+      for file in $1/*$origName*; do
+	mv $file ${file/$origName/$copyName};
+      done
+      for file in $1/*; do
+        if [ -f $file -a ${file##*/} != "keyedobjects.nib" ]
+        then
+	  sed -i ""  -e "s/$origName/$copyName/" $file
+	fi
+
+	if [ -d $file ]
+	then
+	  updatenames $file
+	fi
+      done
+    }
+
+    ################################
+    # this is the meat of the script
+    ################################
+    mkdir $copyName
+    cp -RP $origName/?*.* $copyName
+
+    updatenames $copyName
+
+else
+    echo "$origName must be a SpinBench plugin directory."
+    exit
+fi
