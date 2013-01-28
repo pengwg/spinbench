@@ -126,26 +126,28 @@
     [rewinder setLimitsForPulse:self interval:@"postReadout" constraints:SBScalableConstraint];
     [rewinder setAxis:0 startValue:readPlateauAmp endValue:0.0 area:-plateauArea/2.0];
 
-    // constrain to 2us boundaries
-    readoutStartOffset = ceil([prewinder duration]*500.0)/500.0f;
+    readoutStartOffset = [prewinder duration];
     readoutEndOffset = readoutStartOffset+readPlateauDuration;
-    endOffset = readoutEndOffset+ceil([rewinder duration]*500.0)/500.0f;
+    endOffset = readoutEndOffset + [rewinder duration];
 
     //changing anchor timings might make it necessary to update the position.  do that here.
     [self setPulsePositionFromAnchor:anchor];
 
+    // offset to 2us boundaries
+    quantizationOffset = ceil((start+readoutStartOffset)*500.0) / 500.0 - readoutStartOffset - start;
+
     double timeStep = 1.0/[params waveSamplingRate];
-    int startPosition = (int)floor(start/timeStep); // resel
-    double startOffset = timeStep*fmax(start/timeStep - (double)startPosition,0.0); // ms
-    int numPoints = ceil((startOffset+endOffset)/timeStep);
+    int startPosition = (int)floor(start/timeStep);
+    double startOffset = start - startPosition * timeStep;
+    int numPoints = ceil((startOffset + endOffset + quantizationOffset)/timeStep);
 
     [pulseData setNumPoints:numPoints startPosition:startPosition setToZero:YES];
     float **data = [pulseData gradData];
-    [prewinder generateWaveformsWithStartTime:startOffset+readoutStartOffset-[prewinder duration] dataArray:data dataArrayLength:numPoints];
+    double dataOffset = startOffset + quantizationOffset;
 
-    SBPlateau(readPlateauAmp, startOffset+readoutStartOffset, readPlateauDuration, timeStep, data[0], numPoints);
-
-    [rewinder generateWaveformsWithStartTime:startOffset+readoutEndOffset dataArray:data dataArrayLength:numPoints];
+    [prewinder generateWaveformsWithStartTime:dataOffset dataArray:data dataArrayLength:numPoints];
+    SBPlateau(readPlateauAmp, dataOffset+readoutStartOffset, readPlateauDuration, timeStep, data[0], numPoints);
+    [rewinder generateWaveformsWithStartTime:dataOffset+readoutEndOffset dataArray:data dataArrayLength:numPoints];
     
     // memcpy(data[1], data[0], numPoints * sizeof(float));
     
@@ -250,9 +252,9 @@
 {
     SBReadoutTag *tag = [SBReadoutTag tag];
     [tag setPluginName:[self editableName]];
-    [tag setReadoutStart:[self readoutStart]];
-    [tag setReadoutEnd:[self readoutEnd]];
-    [tag setReadoutReferencePoint:[self readoutCenter]];
+    [tag setReadoutStart:[self readoutStart]+quantizationOffset];
+    [tag setReadoutEnd:[self readoutEnd]+quantizationOffset];
+    [tag setReadoutReferencePoint:[self readoutCenter]+quantizationOffset];
     [tag setPhase:[params receiverPhase]];
     [tag setSamplingRate:[params readSamplingRate]];
     [tag setViewIndex:trNum of:numTr forKey:@"index" object:self];

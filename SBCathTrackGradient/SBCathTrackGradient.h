@@ -25,7 +25,7 @@
     int samples;
     int numShots;
     double readoutStartOffset,readoutEndOffset,endOffset;
-    
+    double quantizationOffset;
 }
 
 @end
