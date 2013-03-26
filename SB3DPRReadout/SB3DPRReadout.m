@@ -85,7 +85,7 @@
 
 + (NSString *)humanReadablePluginName
 {
-    return @"2DPR Readout";
+    return @"3DPR Readout";
 }
 
 - (void)destroyNib
