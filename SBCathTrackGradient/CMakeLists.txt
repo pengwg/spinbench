@@ -9,7 +9,7 @@ set(${PROJECT_NAME}_SRCS
 IF(NOT APPLE)
 include_directories(/usr/include/GNUstep)
 ENDIF(NOT APPLE)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
 ADD_DEFINITIONS(-Wall -Wextra -Wno-unused-parameter -Werror)
 

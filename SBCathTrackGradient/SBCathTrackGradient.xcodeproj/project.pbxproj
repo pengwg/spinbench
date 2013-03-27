@@ -17,22 +17,22 @@
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		0C0042500B320268008F043D /* SBPropertyListPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBPropertyListPlugin.h; sourceTree = "<group>"; };
-		0C21252A0AF81954003DA6D1 /* SBParamsObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBParamsObject.h; sourceTree = "<group>"; };
-		0C5523A90C890339007982FF /* SBAnchorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBAnchorController.h; sourceTree = "<group>"; };
-		0C5523AA0C890339007982FF /* SBTrapezoid.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBTrapezoid.h; sourceTree = "<group>"; };
-		0C73FE2D0EDA0CFA00FF0630 /* SBPulseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBPulseData.h; sourceTree = "<group>"; };
 		0C83AF0F0AF6A34B00DE7C8E /* InspectorPane.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = InspectorPane.nib; sourceTree = "<group>"; };
-		0C8C27060C39ABF50008717F /* SBPulsePlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBPulsePlugin.h; sourceTree = "<group>"; };
 		0C8F9FDD0C3DB98B00426FB9 /* SBCathTrackGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SBCathTrackGradient.h; sourceTree = "<group>"; };
 		0C8F9FDE0C3DB98B00426FB9 /* SBCathTrackGradient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SBCathTrackGradient.m; sourceTree = "<group>"; };
 		0CA092510AF1B835003D1F18 /* SBCathTrackGradient.sbplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SBCathTrackGradient.sbplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		0CA0D4900E9D5F9200787CCA /* SBReadoutTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBReadoutTag.h; sourceTree = "<group>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B854D8B0170253A1007D733E /* SBAnchorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBAnchorController.h; sourceTree = "<group>"; };
+		B854D8B5170253A1007D733E /* SBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBFunctions.h; sourceTree = "<group>"; };
+		B854D8BB170253A1007D733E /* SBOptimizedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBOptimizedGradient.h; sourceTree = "<group>"; };
+		B854D8BE170253A1007D733E /* SBParamsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBParamsObject.h; sourceTree = "<group>"; };
+		B854D8BF170253A1007D733E /* SBPropertyListPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBPropertyListPlugin.h; sourceTree = "<group>"; };
+		B854D8C0170253A1007D733E /* SBPulseData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBPulseData.h; sourceTree = "<group>"; };
+		B854D8C1170253A1007D733E /* SBPulsePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBPulsePlugin.h; sourceTree = "<group>"; };
+		B854D8C3170253A1007D733E /* SBReadoutTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBReadoutTag.h; sourceTree = "<group>"; };
+		B854D8CA170253A1007D733E /* SBTrapezoid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBTrapezoid.h; sourceTree = "<group>"; };
 		B8B6213E1641DDEA008E4080 /* SBCathTrackGradient copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SBCathTrackGradient copy-Info.plist"; sourceTree = "<group>"; };
-		B8B6213F1641E2B2008E4080 /* SBOptimizedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBOptimizedGradient.h; sourceTree = "<group>"; };
-		B8B621401641E2D0008E4080 /* SBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBFunctions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,27 +81,11 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				0C55212A0C88F478007982FF /* include */,
+				B854D8AC170253A1007D733E /* include */,
 				0C8F9FDD0C3DB98B00426FB9 /* SBCathTrackGradient.h */,
 				0C8F9FDE0C3DB98B00426FB9 /* SBCathTrackGradient.m */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		0C55212A0C88F478007982FF /* include */ = {
-			isa = PBXGroup;
-			children = (
-				B8B621401641E2D0008E4080 /* SBFunctions.h */,
-				B8B6213F1641E2B2008E4080 /* SBOptimizedGradient.h */,
-				0C73FE2D0EDA0CFA00FF0630 /* SBPulseData.h */,
-				0C21252A0AF81954003DA6D1 /* SBParamsObject.h */,
-				0C0042500B320268008F043D /* SBPropertyListPlugin.h */,
-				0C8C27060C39ABF50008717F /* SBPulsePlugin.h */,
-				0CA0D4900E9D5F9200787CCA /* SBReadoutTag.h */,
-				0C5523A90C890339007982FF /* SBAnchorController.h */,
-				0C5523AA0C890339007982FF /* SBTrapezoid.h */,
-			);
-			path = include;
 			sourceTree = "<group>";
 		};
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
@@ -127,6 +111,23 @@
 				0CA092510AF1B835003D1F18 /* SBCathTrackGradient.sbplugin */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B854D8AC170253A1007D733E /* include */ = {
+			isa = PBXGroup;
+			children = (
+				B854D8B0170253A1007D733E /* SBAnchorController.h */,
+				B854D8B5170253A1007D733E /* SBFunctions.h */,
+				B854D8BB170253A1007D733E /* SBOptimizedGradient.h */,
+				B854D8BE170253A1007D733E /* SBParamsObject.h */,
+				B854D8BF170253A1007D733E /* SBPropertyListPlugin.h */,
+				B854D8C0170253A1007D733E /* SBPulseData.h */,
+				B854D8C1170253A1007D733E /* SBPulsePlugin.h */,
+				B854D8C3170253A1007D733E /* SBReadoutTag.h */,
+				B854D8CA170253A1007D733E /* SBTrapezoid.h */,
+			);
+			name = include;
+			path = ../include;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
