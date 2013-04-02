@@ -28,7 +28,7 @@
 
 #define fovInit 40.0f
 #define samplesInit 256
-#define numProjectionsInit 256
+#define numProjectionsInit 540
 
 #define xComponentInit 1.00f
 #define yComponentInit 0.00f
