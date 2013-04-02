@@ -28,7 +28,7 @@
 
 #define fovInit 40.0f
 #define samplesInit 256
-#define numProjectionsInit 128
+#define numProjectionsInit 256
 
 #define xComponentInit 1.00f
 #define yComponentInit 0.00f
@@ -270,13 +270,15 @@
     float *kSpaceDensity = [tag kSpaceDensity];
 
     int prjNum = trNum % numProjections;
-    float angle = (float)prjNum / numProjections * M_PI;
+    float z = (float)prjNum / (numProjections - 1);
+    float theta = acosf(z);
+    float phi = sqrtf(2 * M_PI * (numProjections - 1)) * theta;
     
     int i;
     for(i = 0; i < samples; i++) {
-        kSpace[0][i] = ((float)i / samples - 0.5) * cosf(angle);
-        kSpace[1][i] = ((float)i / samples - 0.5) * sinf(angle);
-        kSpace[2][i] = 0;
+        kSpace[0][i] = ((float)i / samples - 0.5) * cosf(phi) * sqrtf(1 - z * z);
+        kSpace[1][i] = ((float)i / samples - 0.5) * sinf(phi) * sqrtf(1 - z * z);
+        kSpace[2][i] = ((float)i / samples - 0.5) * z;
         
         kSpaceDensity[i] = fabsf(2.0 * i / samples - 1);
     }
@@ -298,11 +300,14 @@
     float **outTransform = [pulseData gradTransform];
     
     int prjNum = trNum % numProjections;
-    float angle = (float)prjNum / numProjections * M_PI;
+
+    float z = (float)prjNum / (numProjections - 1);
+    float theta = acosf(z);
+    float phi = sqrtf(2 * M_PI * (numProjections - 1)) * theta;
     
-    outTransform[0][0] = cosf(angle);
-    outTransform[0][1] = sinf(angle);
-    outTransform[0][2] = 0;
+    outTransform[0][0] = cosf(phi) * sqrtf(1 - z * z);
+    outTransform[0][1] = sinf(phi) * sqrtf(1 - z * z);
+    outTransform[0][2] = z;
 
     return pulseData;
 }
