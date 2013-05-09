@@ -36,6 +36,7 @@
 
 
 @implementation SB3DPRReadout
+@synthesize boxProjections;
 
 - (id)initWithPropertyList:(NSMutableDictionary *)_plist params:(SBParamsObject *)_params {
     self = [super initWithPropertyList:_plist params:_params];
@@ -51,6 +52,9 @@
             samples = samplesInit;
             targetProjections = numProjectionsInit;
             numProjections = numProjectionsInit;
+
+            theta_array = 0;
+            phi_array = 0;
         }
 
     }
@@ -59,13 +63,14 @@
 
 - (NSArray *)attributeKeys
 {
-    return [[NSArray arrayWithObjects:@"fov",@"samples",@"numProjections",nil] arrayByAddingObjectsFromArray:[super attributeKeys]];
+    return [[NSArray arrayWithObjects:@"fov",@"samples",@"designType", @"targetProjections", @"numProjections",nil] arrayByAddingObjectsFromArray:[super attributeKeys]];
 }
 
 - (NSString *)unitsOf:(NSString *)paramName
 {
     if([paramName isEqualToString:@"fov"]) return @"cm";
     else if([paramName isEqualToString:@"samples"]) return @"";
+    else if([paramName isEqualToString:@"targetProjections"]) return @"";
     else if([paramName isEqualToString:@"numProjections"]) return @"";
     return [super unitsOf:paramName];
 }
@@ -151,9 +156,47 @@
     SBPlateau(readPlateauAmp, dataOffset+readoutStartOffset, readPlateauDuration, timeStep, data[0], numPoints);
     [rewinder generateWaveformsWithStartTime:dataOffset+readoutEndOffset dataArray:data dataArrayLength:numPoints];
     
-    // memcpy(data[1], data[0], numPoints * sizeof(float));
+    [self calculateProjections];
     
     [super calculateOutput];
+}
+
+- (void)calculateProjections
+{
+    int bufferSize = targetProjections * 1.2;
+    theta_array = realloc(theta_array, sizeof(float) * bufferSize);
+    phi_array = realloc(phi_array, sizeof(float) * bufferSize);
+
+    numProjections = targetProjections;
+
+    int i = 0;
+    if (designType == 1)
+    {
+        int N = round(sqrt(M_PI * targetProjections / 8));
+        int a = 4 * N;
+
+        theta_array[i] = 0;
+        phi_array[i] = 0;
+        i++;
+
+        int n;
+        for (n = 1; n <= N; n++)
+        {
+            double theta = n * M_PI / 2 / N;
+            int M = round(a * sin(theta) / 2) * 2;
+            int m;
+            for (m = 0; m < M; m++)
+            {
+                theta_array[i] = theta;
+                phi_array[i] = m * 2 * M_PI / M;
+                i++;
+            }
+
+        }
+        numProjections = i;
+    }
+    
+    [boxProjections setIntValue:numProjections];
 }
 
 - (BOOL)validateStart:(id *)valObj error:(NSError **)outError
@@ -303,20 +346,34 @@
     
     int prjNum = trNum % numProjections;
 
-    float z = (float)prjNum / (numProjections - 1);
-    float theta = acosf(z);
-    float phi = sqrtf(2 * M_PI * (numProjections - 1)) * theta;
+    if (designType == 0)
+    {
+        float z = (float)prjNum / (numProjections - 1);
+        float theta = acosf(z);
+        float phi = sqrtf(2 * M_PI * (numProjections - 1)) * theta;
     
-    outTransform[0][0] = cosf(phi) * sqrtf(1 - z * z);
-    outTransform[0][1] = sinf(phi) * sqrtf(1 - z * z);
-    outTransform[0][2] = z;
-
+        outTransform[0][0] = cosf(phi) * sqrtf(1 - z * z);
+        outTransform[0][1] = sinf(phi) * sqrtf(1 - z * z);
+        outTransform[0][2] = z;
+    }
+    else if (designType == 1)
+    {
+        float theta = theta_array[prjNum];
+        float phi = phi_array[prjNum];
+        
+        outTransform[0][0] = cosf(phi) * sinf(theta);
+        outTransform[0][1] = sinf(phi) * sinf(theta);
+        outTransform[0][2] = cosf(theta);
+    }
+    
     return pulseData;
 }
 
-- (void)setNumProjections:(int)val
+-(void)dealloc
 {
-    numProjections = val;
+    free(theta_array);
+    free(phi_array);
+    [super dealloc];
 }
 
 @end

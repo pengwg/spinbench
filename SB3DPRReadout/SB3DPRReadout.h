@@ -30,6 +30,12 @@
     
     double readoutStartOffset,readoutEndOffset,endOffset;
     double quantizationOffset;
+
+    float *theta_array, *phi_array;
+    NSTextField *boxProjections;
 }
+@property (assign) IBOutlet NSTextField *boxProjections;
+
+-(void) calculateProjections;
 
 @end
