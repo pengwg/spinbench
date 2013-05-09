@@ -47,7 +47,9 @@
             // gradTransform[1][0] = zComponentInit; gradTransform[1][1] = xComponentInit; gradTransform[1][2] = yComponentInit;
             
             fov = fovInit;
+            designType = 0;
             samples = samplesInit;
+            targetProjections = numProjectionsInit;
             numProjections = numProjectionsInit;
         }
 

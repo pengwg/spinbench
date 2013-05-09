@@ -22,8 +22,12 @@
 
     double start;
     double fov;
+    
+    int designType;
     int samples;
+    int targetProjections;
     int numProjections;
+    
     double readoutStartOffset,readoutEndOffset,endOffset;
     double quantizationOffset;
 }
