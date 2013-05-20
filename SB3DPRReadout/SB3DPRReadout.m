@@ -163,7 +163,7 @@
 
 - (void)calculateProjections
 {
-    int bufferSize = targetProjections * 1.2;
+    int bufferSize = targetProjections * 1.5;
     theta_array = realloc(theta_array, sizeof(float) * bufferSize);
     phi_array = realloc(phi_array, sizeof(float) * bufferSize);
 
@@ -185,6 +185,7 @@
             double theta = n * M_PI / 2 / N;
             int M = round(a * sin(theta) / 2) * 2;
             int m;
+            
             for (m = 0; m < M; m++)
             {
                 theta_array[i] = theta;
@@ -342,6 +343,8 @@
 - (SBPulseData *)trDependentPulseDataForTrNum:(int)trNum of:(int)numTr
 {
     // SBPulseData *outData = [pulseData subDataWithGradAxis:0];
+    
+    
     float **outTransform = [pulseData gradTransform];
     
     int prjNum = trNum % numProjections;
