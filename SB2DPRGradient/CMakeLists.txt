@@ -43,7 +43,7 @@ ENDIF(NOT APPLE)
 
 
 IF(NOT APPLE)
-SET(Objc_LIBRARIES objc /usr/lib/libgnustep-base.so.1.22)
+SET(Objc_LIBRARIES objc gnustep-base)
 ELSE(NOT APPLE)
 SET(Objc_LIBRARIES "-framework Cocoa")
 ENDIF(NOT APPLE)
