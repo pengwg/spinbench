@@ -18,15 +18,26 @@
 #import <Cocoa/Cocoa.h>
 #import "SBPulsePlugin.h"
 
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBCartesianReadout
+ *   @brief       Pulse Plugin class that provides phase and frequency encoding gradients
+ *   @author      HeartVista, Inc.
+ *   @see         SBPulsePlugin
+ */
+
 @interface SBCartesianReadout : SBPulsePlugin <SBReadoutSharedParameters> {
-	
+@private
 	double start;
 	double fov;
   float kxCoverage; 
   float kyCoverage;
+  float samplingRate;
 	int xRes, yRes;
 	double netArea;
 	double readoutStartOffset,readoutEndOffset,endOffset;
+  double duration;
+  double samples;
 	BOOL hasPhaseEncoding;
 	BOOL hasRewinder;
     
@@ -39,7 +50,14 @@
   IBOutlet id kyCoverageTextValue;
 }
 
-- (void)setXRes:(float)val;
-- (void)setYRes:(float)val;
+- (void)setKxCoverage:(float)val;
+- (void)setKyCoverage:(float)val;
+
+/**
+ *   @brief   Returns the duration of the pulse
+ *   @note    Read-only
+ *   @returns The pulse duration in ms
+ */
+-(double)duration;
 
 @end

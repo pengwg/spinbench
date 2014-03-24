@@ -18,6 +18,7 @@
 #import <Cocoa/Cocoa.h>
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @class       SBTag 
  *   @brief       Abstract class used for adding meta-information to waveform segments.
  *   @details     Meta-information can include the start and end times of specific pulses (RF, Gradient) or time intervals (RF Receiver windows, etc).

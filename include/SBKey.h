@@ -20,9 +20,12 @@
 @class SBParamsObject;
 
 /**
- *   @class       SBKey 
- *   @brief       Class for representing and manipulating SBKey references
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBKey
+ *   @brief       Represents and manipulates SBKey references
  *   @details     SBKey provides a stable reference to a specific key for classes such as #SBVariableAxis.  When the reference is to a plugin, the reference follows a specific instance of the plugin even as its editableName changes.  When that happens, the SBKey sends SBKeyDidChangeNotification with itself as associated object.
+ 
+     Derived keys (read-only) are not currently stored by this structure.
  *   @author      HeartVista, Inc.
  *   @see         SBParamsObject
  *   @see         SBSpinModel

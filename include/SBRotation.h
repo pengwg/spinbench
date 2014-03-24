@@ -18,6 +18,13 @@
 #import <Cocoa/Cocoa.h>
 
 
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBRotation
+ *   @brief       Handles matrix rotations
+ *   @author      HeartVista, Inc.
+ */
+
 @interface SBRotation : NSObject {
 @private
   float **matrix;
@@ -44,7 +51,7 @@
 -(SBRotation *)transpose;
 -(void)multiplyBy:(SBRotation *)r2;
 
-// unrotate assumes this object contains a pure rotaiton
+// unrotate assumes this object contains a pure rotation
 -(void)rotateVector:(float *)vec;
 -(void)unrotateVector:(float *)vec;
 

@@ -22,6 +22,15 @@
 @class SBRFTag;
 @class SBTag;
 @class SBPropertyListPlugin;
+
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBSegmentMetadata
+ *   @brief       Metadata associated with a TR segment of a sequence
+ *   @author      HeartVista, Inc.
+ */
+
 @interface SBSegmentMetadata : NSObject {
 	NSMutableArray *pulseTags;
 	NSMutableArray *readoutTags;

@@ -15,12 +15,19 @@
  
  ***************************************************************************/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #import <Cocoa/Cocoa.h>
+#ifdef __cplusplus
+}
+#endif
 
 @class SBWaveform;
 @class SBRotation;
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @class       SBPulseData 
  *   @brief       Provides storage for floating point pulse data
  *   @details     Pulses are stored in floating-point arrays #rfData, #gradData, and #otherData.  Individual objects may contain any or all of these data types.  Information about the current rotation matrix and pulse overlaps is also available through this class.  Through this class, simple data manipulations and filtering can also be applied.  For example, subdata objects containing only certain pulse axes can be easily extracted.  Data resampled at different sampling rates is also available.
@@ -132,25 +139,25 @@
 
 /**
  *    @brief     Modifiable pointer to all data
- *    @details   This returns an array of data that is #numAxes by #numPoints, but the order of gradient, rf, and other axes cannot be guaranteed.  Use this pointer only if that information is not relevant; for example, to set all data to zeros.  To set specific data, use #rfData, #gradData, or #otherData pointers instead.
+ *    @details   This returns an array of data that is numAxes by numPoints, but the order of gradient, rf, and other axes cannot be guaranteed.  Use this pointer only if that information is not relevant; for example, to set all data to zeros.  To set specific data, use #rfData, #gradData, or #otherData pointers instead.
  */
 - (float **)allData;
 
 /**
  *    @brief     Modifiable pointer to rf tx data
- *    @details   This returns an array of data that is #numRfTxAxes by #numPoints.  Channels are paired sequentially.  Upon creation, this data is initialized with zeros.
+ *    @details   This returns an array of data that is numRfTxAxes by numPoints.  Channels are paired sequentially.  Upon creation, this data is initialized with zeros.
  */
 - (float **)rfData;
 
 /**
  *    @brief     Modifiable pointer to gradient data
- *    @details   This returns an array of data that is #numGradAxes by #numPoints.  Upon creation, this data is initialized with zeros.
+ *    @details   This returns an array of data that is numGradAxes by numPoints.  Upon creation, this data is initialized with zeros.
  */
 - (float **)gradData;
 
 /**
  *    @brief     Modifiable pointer to other (non-rf, non-gradient) data
- *    @details   This returns an array of data that is #numOtherAxes by #numPoints.  Upon creation, this data is initialized with zeros.
+ *    @details   This returns an array of data that is numOtherAxes by numPoints.  Upon creation, this data is initialized with zeros.
  */
 - (float **)otherData;
 

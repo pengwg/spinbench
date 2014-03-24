@@ -28,6 +28,14 @@
 @class SBDocument;
 
 /**
+ *   @defgroup    SpinBenchDesignTool SpinBench Library
+ *   @brief       Pulse sequence generation library
+ *   @details     This library is shared between SpinBench.app and the RTHawk Sequencer to produce high-fidelity MR waveforms.
+ *   @author      HeartVista, Inc.
+ */
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @class       SBParamsObject 
  *   @brief       Base class for document-wide parameters and plugin management
  *   @details     SBParamsObject provides storage for document-wide parameters (fieldStrength, t1, t2, ...) as well as management for plugins (pulses, sequencing, simulations, etc.).  A key-value mechanism is also implemented through #valueForSBKey: and #setValue:forSBKey:, which allows setting and getting of document-wide and pulse-related parameters.
@@ -42,6 +50,8 @@
   BOOL initializing; /**< @brief Indicates when the instance or its associated waveform object is being initialized from a file */
   double fieldStrength; /**< @brief Magnetic field strength (T) */
   double gamma; /**< @brief Gyromagnetic ratio (Hz/G) */
+  double maxReadoutRate; /**< @brief Maximum acquisition rate for readout intervals (kSamp/sec) */
+  int readoutSampleDivisor; /**< @brief Readout windows must have number of samples divisible by this */
   double rfLimit; /**< @brief Maximum RF amplitude (G) */
   double gradLimit; /**< @brief Maximum gradient amplitude (G/cm) */
   double nominalGradLimitScale; /**< @brief Nominal gradient amplitude scale factor */
@@ -69,8 +79,6 @@
   BOOL beginAtSS; /**< @brief Flag indicating whether the Bloch simulator should initiate the sequence at its steady state magnetization */
   NSString *appVersion; /**< @brief An NSString containing the version key for this instance of SpinBench */
   double waveSamplingRate; /**< @brief The sampling rate for RF and gradient waveforms (ksamp/sec) */
-  double readSamplingRate; /**< @brief The sampling rate for the RF receiver (ksamp/s) */
-  int nFrames; /**< @brief The number of frames to save when performing renderings or other time series */
   double absoluteTime; /**< @brief The time location of the simulation, counted from the beginning of TR 0 (ms) */
   double frequency; /**< @brief The relative center frequency of the simulation at time 0, with 0 being on-resonant (Hz) */
   double dFrequency; /**< @brief The time rate of change of center frequency of the simulation (Hz/s) */
@@ -98,7 +106,6 @@
 @private
   int pendingChanges;
   BOOL paramsEnabled;
-  BOOL isComputing;
 }
 
 /**
@@ -112,6 +119,8 @@
 
 -(void)setFieldStrength:(double)val; /**< @brief Set the main magnetic field strength (T) */
 -(void)setGamma:(double)val; /**< @brief Set the gyromagnetic ratio (Hz/G) */
+-(void)setMaxReadoutRate:(double)val; /**< @brief Set the maximum acquisition rate for readout intervals (kSamp/sec) */
+-(void)setReadoutSampleDivisor:(int)val; /**< @brief Set the number by which readout window number of samples must be divisible */
 
 /**
  *    @brief     Set the RF limit (G)
@@ -259,7 +268,7 @@
 
 /**
  *    @brief     Set the global repetition time (ms)
- *    @details   The global repetition time is used when new intervals are created for sequencing.  This may or may not correspond to the TR of the resulting sequence, depending upon the sequencing choices made by the sequence designer.  For example, a different TR value may be specified through creating a #SBNewTrPlugin instance.
+ *    @details   The global repetition time is used when new intervals are created for sequencing.  This may or may not correspond to the TR of the resulting sequence, depending upon the sequencing choices made by the sequence designer.  For example, a different TR value may be specified through creating a #SBNewTRPlugin instance.
  */
 -(void)setTr:(double)val;
 
@@ -302,10 +311,9 @@
 /**
  *    @brief     Set the sampling rate for the RF receiver (ksamp/sec)
  *    @details   This determines the sampling rate for all RF receivers.
+ *    @deprecated  Use samplingRate attributes associated with individual readout pulses instead
  */
 -(void)setReadSamplingRate:(double)value;
-
--(void)setNFrames:(int)val; /**< @brief Set the number of frames to save when performing renderings or other time series */
 
 /**
  *    @brief     Set the number of (possibly complex-valued) RF transmitters available to the system 
@@ -321,6 +329,8 @@
 
 -(double)fieldStrength; /**< @brief The main magnetic field strength (T) */
 -(double)gamma; /**< @brief Gyromagnetic ratio (Hz/G) */
+-(double)maxReadoutRate; /**< @brief The maximum acquisition rate for readout intervals (kSamp/sec) */
+-(int)readoutSampleDivisor; /**< @brief Readout windows must have number of samples divisible by this */
 
 /**
  *    @brief     The maximum RF amplitude (G)
@@ -417,9 +427,9 @@
 /**
  *    @brief     The sampling rate for the RF receiver (ksamp/sec)
  *    @details   This determines the sampling rate for all RF receivers.
+ *    @deprecated  Use samplingRate attributes associated with individual readout pulses instead
  */
 -(double)readSamplingRate;
--(int)nFrames; /**< @brief The number of frames to save when performing renderings or other time series */
 
 -(double)absoluteTime; /**< @brief The time location of the simulation, counted from the beginning of TR 0 (ms) */
 -(double)timeWithinTr; /**< @brief The time interval from the beginning of the current TR to the insertion point */
@@ -445,11 +455,20 @@
 
 /**
  *    @brief     Returns an array of the read/write SB Keys that are available for use by the calling plugin
- *    @details   Attribute keys which do not have units (i.e., return nil for unitsOf: calls) are not included in this list
+ *    @details   Attribute keys which do not have units (i.e., return nil for unitsOf: calls) are not included in this list.  This function is equivalent to calling availabieSBKeysForPlugin:includeReadOnly:NO.
  *    @note      This function should not be called during computations, but can be used to populate user-interface elements.
  *    @param     callingPlugin Generally, the plugin being used to call the function.  Keys associated with the calling function will not be included.  This value may be nil.
  */
 - (NSMutableArray *)availableSBKeysForPlugin:(id)callingPlugin;
+
+/**
+ *    @brief     Returns an array of the SB Keys that are available for use by the calling plugin
+ *    @details   Attribute keys which do not have units (i.e., return nil for unitsOf: calls) are not included in this list.  Read-only keys (including derived and anchor keys) can be included using the includeReadOnly flag.
+ *    @note      This function should not be called during computations, but can be used to populate user-interface elements.
+ *    @param     callingPlugin Generally, the plugin being used to call the function.  Keys associated with the calling function will not be included.  This value may be nil.
+ *    @param     inclReadOnly If YES, then read-only keys are included.
+ */
+- (NSMutableArray *)availableSBKeysForPlugin:(id)callingPlugin includeReadOnly:(BOOL)inclReadOnly;
 
 /**
  *    @brief     Returns an array of the read-only SB keys that are available for use by the calling plugin
@@ -459,20 +478,20 @@
 - (NSMutableArray *)readOnlySBKeysForPlugin:(id)callingPlugin;
 
 /**
- *    @brief     The parent #SBDocument object associated with this object, if any
- *    @details   This value should only be nil if no related #SBDocument exists.  Thus, when document=nil, the SBParamsObject instance can be assumed to be the top of the object hierarchy.
- *    @deprecated This should be moved to #SBParamsController in a future version.
+ *    @brief     The parent SBDocument object associated with this object, if any
+ *    @details   This value should only be nil if no related SBDocument exists.  Thus, when document=nil, the SBParamsObject instance can be assumed to be the top of the object hierarchy.
+ *    @deprecated This should be moved to SBParamsController in a future version.
  */
 - (SBDocument *)document;
 
 /**
- *    @brief     The #SBWaveforms object owned by this object
- *    @details   Each params object has a #SBWaveforms object associated with it, which maintains and calculates the sequence waveforms.  This waveform object may be reallocated or relocated, so dependent objects should not cache its address.
+ *    @brief     The #SBWaveform object owned by this object
+ *    @details   Each params object has a #SBWaveform object associated with it, which maintains and calculates the sequence waveforms.  This waveform object may be reallocated or relocated, so dependent objects should not cache its address.
  */
 - (SBWaveform *)waveforms;
 
 /**
- *    @brief     Change the #SBWaveforms object owned by this object
+ *    @brief     Change the #SBWaveform object owned by this object
  *    @note      This function should be called in the #SBWaveform constructor and nowhere else.  To update the waveform object associated with a #SBParamsObject, consider using SBWaveform#setFromPropertyList: or SBWaveform#setStateEqualTo:.
  */
 - (void)setWaveformObject:(SBWaveform *)obj;
@@ -507,7 +526,7 @@
 
 /**
  *    @brief     Returns auto-generated k-space data for a given interval
- *    @details   This method returns a #SBKSpaceData object containing automatically generated k-space data with a sepcified moment for a given #SBReadoutTag object and tr number.  This function creates the k-space data numerically based on the gradient output of #waveformSegmentForTrNum:.  In many cases, readout-specific k-space data is more useful; this can be found in #SBReadoutTag.
+ *    @details   This method returns a #SBKSpaceData object containing automatically generated k-space data with a specified moment for a given #SBReadoutTag object and tr number.  This function creates the k-space data numerically based on the gradient output of #waveformSegmentForTrNum:.  In many cases, readout-specific k-space data is more useful; this can be found in #SBReadoutTag.
  *    @param     moment A non-negative integer specifying the moment of the desired k-space data.  Set to zero for conventional k-space data.
  *    @param     readout A #SBReadoutTag object specifying the start and end timings for the desired readout.  If nil, then the resulting k-space data spans the entire TR interval
  *    @param     trNum The tr number for the requested k-space data
@@ -586,11 +605,11 @@
 - (NSArray *)attributeKeys;
 
 /**
- *   @brief     The document-wide read-only attribute keys associated with this params object
- *   @details   Read-only attribute keys cannot be set, but can be read and used for information or other calculations.  These keys are not saved with the SPV file, do not provide undo/redo capabilities, and may only be read through the SBKey mechanism.  This array of NSStrings indicates the read-only attribute keys that are provided by SBParamsObject.  An example of such a key is 'numTr'.
- *   @note      Similar methods are intended to be provided for each #SBPropertyListPlugin.
+ *   @brief     The document-wide derived attribute keys associated with this params object
+ *   @details   Derived attribute keys cannot be set, but can be read and used for information or other calculations.  Their value is automatically derived from other sequence information.  These keys are not saved with the SPV file, do not provide undo/redo capabilities, and may only be read through the SBKey mechanism.  This array of NSStrings indicates the read-only attribute keys that are provided by SBParamsObject.  An example of such a key is 'numTr'.
+ *   @note      Similar methods are provided for each #SBPropertyListPlugin.
  */
-- (NSArray *)readOnlyAttributeKeys;
+- (NSArray *)derivedAttributeKeys;
 
 /**
  *   @brief     Array of all view index keys provided by currently instantiated plugins
@@ -600,13 +619,13 @@
 
 /**
  *   @brief      Increment parameter change grouping status
- *   @deprecated This call has been superseded by #beginParameterChangeGroup.
+ *   @deprecated This call has been superseded by SBParamsObject#beginParameterChangeGroup.
  */
 - (void)incrementPendingChanges;
 
 /**
  *   @brief      Decrement parameter change grouping status
- *   @deprecated This call has been superseded by #endParameterChangeGroup.
+ *   @deprecated This call has been superseded by SBParamsObject#endParameterChangeGroup.
  */
 - (void)decrementPendingChanges;
 
@@ -640,7 +659,7 @@
 
 /**
  *   @brief     Master instance flag
- *   @details   Returns YES if the receiver is the master instance of #SBParamsObject.  The master instance is responsible for the values shown in the UI, and it implements additional methods found in #SBParamsController.  This function is rarely used.
+ *   @details   Returns YES if the receiver is the master instance of #SBParamsObject.  The master instance is responsible for the values shown in the UI, and it implements additional methods found in SBParamsController.  This function is rarely used.
  */
 - (BOOL)isParamsController;
 
@@ -718,37 +737,37 @@
 
 /**
  *   @brief      Indicates whether the given SB Key exists
- *   @details    SB Keys are of the form '<PluginEditableName>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method queries whether a given key exists.
+ *   @details    SB Keys are of the form '\<PluginEditableName\>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method queries whether a given key exists.  The key may or may not be writable (e.g., it may be a derived key).
  */
 - (BOOL)sbKeyExists:(NSString *)sbKey;
 
 /**
  *   @brief      Set the given SB Key to the supplied value
- *   @details    SB Keys are of the form '<PluginEditableName>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method first validates the value for the key, then updates the key with the validated value.  Note that this behavior is different from the standard accessors, which should set the key without validation.  If the key does not exist, nothing is set and an error message is printed.
+ *   @details    SB Keys are of the form '\<PluginEditableName\>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method first validates the value for the key, then updates the key with the validated value.  Note that this behavior is different from the standard accessors, which should set the key without validation.  If the key does not exist, nothing is set and an error message is printed.
  */
 - (void)setValue:(NSNumber *)val forSBKey:(NSString *)sbKey;
 
 /**
  *   @brief      Returns the current value of the given SB Key
- *   @details    SB Keys are of the form '<PluginEditableName>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method returns the current value of the SB Key.  If the key does not exist, a default-initialized NSNumber is returned and an error message is printed.
+ *   @details    SB Keys are of the form '\<PluginEditableName\>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method returns the current value of the SB Key.  If the key does not exist, a default-initialized NSNumber is returned and an error message is printed.
  */
 - (NSNumber *)valueForSBKey:(NSString *)sbKey;
 
 /**
  *   @brief      Returns the owning object of the given SB Key
- *   @details    SB Keys are of the form '<PluginEditableName>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  For #SBParamsObject keys, this method returns the params object instance.  For plugin keys, it returns the plugin instance.  This method does not check to ensure that the specified key exists.
+ *   @details    SB Keys are of the form '\<PluginEditableName\>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  For #SBParamsObject keys, this method returns the params object instance.  For plugin keys, it returns the plugin instance.  This method does not check to ensure that the specified key exists.
  */
 - (id)ownerForSBKey:(NSString *)sbKey;
 
 /**
  *   @brief      Returns the key portion of the given SB Key
- *   @details    SB Keys are of the form '<PluginEditableName>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method strips the plugin identifier, if any, and returns simply the key name.  This method does not check to ensure that the specified key or owner exists.
+ *   @details    SB Keys are of the form '\<PluginEditableName\>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method strips the plugin identifier, if any, and returns simply the key name.  This method does not check to ensure that the specified key or owner exists.
  */
 - (NSString *)keyForSBKey:(NSString *)sbKey;
 
 /**
  *   @brief      Composes a conforming SB Key from a given owner and key name
- *   @details    SB Keys are of the form '<PluginEditableName>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method creates the SB key given the key's name and the plugin object.  Returns nil if the specified owner can't be found or isn't an instance of an appropriate class.
+ *   @details    SB Keys are of the form '\<PluginEditableName\>.key' for plugin keys, or simply 'key' for #SBParamsObject keys.  This method creates the SB key given the key's name and the plugin object.  Returns nil if the specified owner can't be found or isn't an instance of an appropriate class.
  */
 - (NSString *)sbKeyForKey:(NSString *)key withOwner:(id)owner;
 
@@ -769,6 +788,7 @@
 @end
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @category    NSString(SBCapSupport) 
  *   @brief       Extends NSString to provide capitalization methods
  *   @author      HeartVista, Inc.

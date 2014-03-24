@@ -19,6 +19,7 @@
 @class SBPropertyListPlugin;
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @class       SBAnchoredToList 
  *   @brief       Manages a list of anchors and a currently selected anchor
  *   @details     Provides a mechanism for choosing anchors from a list for plugin use.  The currently selected anchor from the list is maintained here, and a supplied NSPopUpButton can be bound to the proper observers.  See #SBReadoutInterval and #SBRFFrequency for examples of usage.
@@ -29,7 +30,6 @@
 @interface SBAnchoredToList : NSObject {
 @private
 	SBPropertyListPlugin *parent;
-	BOOL enabled;
 	BOOL boxBindingsActive;
 	BOOL observersAreActive;
   

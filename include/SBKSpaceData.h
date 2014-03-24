@@ -17,6 +17,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBKSpaceData
+ *   @brief       Contains k-space data
+ *   @author      HeartVista, Inc.
+ */
 
 @interface SBKSpaceData : NSObject {
 	float **traj;

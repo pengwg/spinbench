@@ -15,8 +15,6 @@
  
  ***************************************************************************/
 
-// this is needed to ensure that docs are generated for the enums
-/** @file */
 
 #import <Cocoa/Cocoa.h>
 @class SBPulsePlugin;
@@ -32,6 +30,7 @@ typedef enum SBAnchorTypeEnum {
 } SBAnchorType;
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @class       SBAnchorController 
  *   @brief       Manages the timing relationships between pulses
  *   @details     Instances of #SBPulsePlugin can request to use anchoring, which provides an automatic mechanism for specific time points within the pulse to be placed within the TR interval.  Placement can be absolute; e.g., by specifying that the starting point of a pulse should happen at time=1.0ms within TR.  Alternatively, placement can be relative; e.g., by specifying that the peak of an RF waveform should correspond with the center of a slice-selection gradient plateau.  By specifying anchors in this way, relative timings within the pulse sequence are maintained as sequence parameters change.
@@ -156,7 +155,7 @@ typedef enum SBAnchorTypeEnum {
 
 /**
  *    @brief     Sets the position attribute and updates the position of the associated pulse appropriately
- *    @details   Position is specified in ms from the beginning of the TR interval.  This setter sets the position absolutely regardless of the current value for #anchorType.
+ *    @details   Position is specified in ms from the beginning of the TR interval.  This setter sets the position absolutely regardless of the current value for anchorType.
  */
 - (void)setPosition:(NSNumber *)val;
 

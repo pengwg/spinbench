@@ -15,10 +15,18 @@
  
  ***************************************************************************/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #import <Cocoa/Cocoa.h>
+#ifdef __cplusplus
+}
+#endif
+
 @class SBParamsObject;
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @class       SBPropertyListPlugin 
  *   @brief       Abstract superclass for SpinBench Pulse, Sequence, and Variable plugins. 
  *   @details     All plugins of type #SBPulsePlugin, #SBSequencePlugin, or #SBVariablePlugin descend from SBPropertyListPlugin.  Many of the methods of this class should be reimplemented in subclasses.
@@ -108,6 +116,12 @@
 - (NSArray *)attributeKeys;
 
 /**
+ *    @brief     Returns an NSArray of NSString keys representing derived informtation.
+ *    @details   Derived keys are not used as primary sources for creating the output of the plugin, and are not saved to or read from files.  The values of these keys can be completely deduced given the current state of the attributeKeys.  Nevertheless, these keys provide useful derived information that can be read by other plugins.
+ */
+- (NSArray *)derivedAttributeKeys;
+
+/**
  *    @brief     Detailed description of the plugin
  *    @details   Subclasses should override this method to provide details about the function and proper use of the plugin.
  */
@@ -115,7 +129,7 @@
 
 /**
  *    @brief     Returns the plugin's name
- *    @details   Subclasses should override this method to provide a concise name for the plugin.  This name will be used as the default #editableName for the plugin and will be used to describe the plugin in pull-down menus.
+ *    @details   Subclasses should override this method to provide a concise name for the plugin.  This name will be used as the default editableName for the plugin and will be used to describe the plugin in pull-down menus.
  */
 + (NSString *)humanReadablePluginName;
 
@@ -163,7 +177,7 @@
 
 /**
  *    @brief     Returns an NSBox with gradient-transform component text boxes
- *    @details   This is used, for example, by #SBEddyGradient to provide an interface for changing per-gradient parameters.
+ *    @details   This is used, for example, by SBEddyGradient to provide an interface for changing per-gradient parameters.
  */
 - (NSBox *)gradTransformBoxWithRows:(int)rows keys:(NSArray *)keys labels:(BOOL)labels overlaps:(NSArray *)overlaps expandable:(BOOL)expandable;
 
@@ -205,7 +219,7 @@
 
 /**
  *    @brief     Calculates the intended output of the plugin
- *    @details   Subclasses should reimplement this method to provide the intended output of the plugin.  The operation of this method is different for each plugin class.  This method is called whenever an attributeKey is changed within this instance, or whenever an observedAttributeKey is changed external to this instance.  For #SBPulsePlugin, this method calculates SBPulsePlugin#pulseData.  For #SBSequencePlugins, this method calculates the #SBWaveformParams data and caches any sequencing information needed.  For #SBVariablePlugins, this method calculates the intended result.  Subclasses should call [super calculateOutput] at the end of processing so that dependent plugins can be notified of changes.
+ *    @details   Subclasses should reimplement this method to provide the intended output of the plugin.  The operation of this method is different for each plugin class.  This method is called whenever an attributeKey is changed within this instance, or whenever an observedAttributeKey is changed external to this instance.  For #SBPulsePlugin, this method calculates SBPulsePlugin#pulseData.  For #SBSequencePlugin, this method calculates the #SBWaveformParams data and caches any sequencing information needed.  For #SBVariablePlugin, this method calculates the intended result.  Subclasses should call [super calculateOutput] at the end of processing so that dependent plugins can be notified of changes.
  */
 - (void)calculateOutput;
 
@@ -284,7 +298,7 @@
 - (BOOL)removeAllDependencies;
 
 /**
- *    @brief     Returns an array of #SBPropertyListPlugins that are dependent on this instance.
+ *    @brief     Returns an array of #SBPropertyListPlugin instances that are dependent on this instance.
  *    @details   Dependencies indicate that this plugin gets some information from another plugin and should update itself (using #updateDependentValues) whenever that plugin updates.  Dependencies are automatically removed when pointed-to objects are deleted, so implementations must be robust to lost dependencies.
  */
 - (NSArray *)allDependentPlugins;
@@ -318,6 +332,7 @@
 @end
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @category    NSMutableDictionary(SBPropertyListPluginSupport) 
  *   @brief       Extends NSMutableDictionary to provide plugin serialization methods
  *   @author      HeartVista, Inc.
@@ -326,12 +341,13 @@
 @interface NSMutableDictionary(SBPropertyListPluginSupport)
 
 /**
- *    @brief     Serializes an array of #SBPropertyListPlugins into the receiver with key aKey.
+ *    @brief     Serializes an array of #SBPropertyListPlugin into the receiver with key aKey.
  */
 - (void)setPropertyListPluginArray:(NSArray *)plugins forKey:(NSString *)aKey;
 @end
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @category    NSDictionary(SBPropertyListPluginSupport) 
  *   @brief       Extends NSDictionary to provide plugin deserialization methods
  *   @author      HeartVista, Inc.
@@ -340,7 +356,7 @@
 @interface NSDictionary(SBPropertyListPluginSupport)
 
 /**
- *    @brief     Returns a deserialized array of #SBPropertyListPlugins from the receiver value for aKey.  Returned plugins are filtered such that all are of type _class or its subclasses.
+ *    @brief     Returns a deserialized array of #SBPropertyListPlugin from the receiver value for aKey.  Returned plugins are filtered such that all are of type _class or its subclasses.
  */
 - (NSMutableArray *)propertyListPluginArrayForKey:(NSString *)aKey params:(SBParamsObject *)_params verifySuperclass:(Class)_class;
 @end

@@ -23,6 +23,15 @@ typedef enum {	SBHardwareOpcodeJump=				0x0001,
 				SBHardwareOpcodeJumpOnTrigger=		0x8001
 			  } SBHardwareOpcode;
 
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBHardwareInstruction
+ *   @brief       Translates hardware instructions 
+ *   @author      HeartVista, Inc.
+ */
+
+
 @interface SBHardwareInstruction : NSObject {
 	SBHardwareOpcode opcode;
 	int value;

@@ -25,6 +25,7 @@
 @class SBSegmentMetadata;
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @class       SBSequencePlugin 
  *   @brief       Abstract superclass for all Sequence Plugins
  *   @details     All sequence plugins must descend from SBSequencePlugin.  In particular, #calculateOutput, #waveformSegmentForTrNum:ofOutput:, and #metadataForTrNum:ofOutput: should be reimplemented.
@@ -111,7 +112,7 @@
 
 /**
  *    @brief     Returns auto-generated k-space data for a given interval
- *    @details   This method returns a #SBKSpaceData object containing automatically generated k-space data with a sepcified moment for a given #SBReadoutTag object, tr number, and output number.  This function creates the k-space data numerically based on the gradient output of #waveformSegmentForTrNum:ofOutput:.  In many cases, readout-specific k-space data is more useful; this can be found in #SBReadoutTag.
+ *    @details   This method returns a #SBKSpaceData object containing automatically generated k-space data with a specified moment for a given #SBReadoutTag object, tr number, and output number.  This function creates the k-space data numerically based on the gradient output of #waveformSegmentForTrNum:ofOutput:.  In many cases, readout-specific k-space data is more useful; this can be found in #SBReadoutTag.
  *    @param     moment a non-negative integer specifying the moment of the desired k-space data.  Set to zero for conventional k-space data.
  *    @param     readout A #SBReadoutTag object specifying the start and end timings for the desired readout.  If nil, then the resulting k-space data spans the entire TR interval
  *    @param     trNum The tr number for the requested output object

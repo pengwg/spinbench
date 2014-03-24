@@ -15,8 +15,6 @@
  
  ***************************************************************************/
 
-// this is needed to ensure that docs are generated for the enums
-/** @file */
 
 #import <Foundation/Foundation.h>
 #import "SBConstants.h"
@@ -53,7 +51,7 @@ double SBSinc(double x) __attribute__((const));
  *    @brief     Concatenate two bytes into a short
  *    @details   Combines two bytes into a 16-bit short using the desired endianness.
  */
-short SBMakeShort(unsigned char *bytes, SBEndian endian);
+short SBMakeShort(unsigned char *bytes, SBEndian endian) __attribute__((const));
 
 // calculates gradient scale factors for all pulse axes for a specific pulse using raw imaging parameters.  It's usually easier to use
 //  SBPulsePlugin's - (float)gradientScaleFactorForInterval:... methods to get this information.
@@ -105,8 +103,9 @@ BOOL invert3x3(double matrix[][3]);
     
   int minint( int a, int b ) __attribute__((const));
     
-  float bessi0( float x);   
-    
+  double bessi0(double x);
+  double bessj1(double x);
+
 #ifdef __cplusplus
 }
 #endif

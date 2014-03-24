@@ -20,6 +20,16 @@
 #import "SBConstants.h"
 
 @class SBPropertyListPlugin;
+
+
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBReadoutTag
+ *   @brief       Describes a readout window
+ *   @author      HeartVista, Inc.
+ *   @see         SBTag
+ */
 @interface SBReadoutTag : SBTag {
 
 @private

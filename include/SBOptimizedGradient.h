@@ -14,10 +14,6 @@
  $HEARTVISTA_END_LICENSE$
  
  ***************************************************************************/
-//
-//  Finds a quasi-optimal minimum-time multidimensional waveform that meets a given set of constraints on endpoints, areas, and moments.
-//  Currently only supports one or two-dimensional waveforms.
-
 
 #import <Cocoa/Cocoa.h>
 
@@ -37,6 +33,17 @@ typedef enum {
   SBOptimizeAxisArea          = 0x010,
   SBOptimizeAxisMoment        = 0x100
 } SBOptimizedGradientAxisType;
+
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBOptimizedGradient
+ *   @brief       Finds an optimized waveform given specific constraints 
+ *   @details     Finds a quasi-optimal minimum-time multidimensional waveform that meets a given set of constraints on endpoints, areas, and moments. Currently, it only supports one or two-dimensional waveforms.
+ *   @author      HeartVista, Inc.
+ *   @see         SBSequencePlugin
+ */
+
 
 @interface SBOptimizedGradient : NSObject {
 @private

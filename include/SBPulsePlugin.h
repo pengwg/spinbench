@@ -15,10 +15,15 @@
  
  ***************************************************************************/
 
-// this is needed to ensure that docs are generated for the enums
-/** @file */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #import <Cocoa/Cocoa.h>
+#ifdef __cplusplus
+}
+#endif
+
 #import "SBPropertyListPlugin.h"
 @class SBAnchorController;
 @class SBPulseData;
@@ -39,6 +44,7 @@ typedef enum SBPulseTypeEnum {
 } SBPulseType;
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @class       SBPulsePlugin 
  *   @brief       Abstract superclass for all Pulse Plugins
  *   @details     All pulse plugins must descend from SBPulsePlugin.  In particular, #calculateOutput should be reimplemented.  For RF pulses, consider also conforming to the #SBRFPulseSharedParameters protocol.  For pulses with a readout component, consider also conforming to the #SBReadoutSharedParameters protocol.  If the pulse data differs from TR to TR, then also conform to #SBTrDependentPulseDataProtocol.
@@ -158,8 +164,8 @@ typedef enum SBPulseTypeEnum {
 
 /**
  *    @brief     Sets the number of axes for each pulse type.
- *    @details   Reimplement this function to indicate the number of axes for #SBPulseTypeEnum values.  Implementations can expect that the function will only be called with pulse types SBRF, SBGrad, and SBOther.  Returning 0 for a specific pulse type indicates that the pulse does not implement that pulse type.
- *    @param     type A #SBPulseTypeEnum value
+ *    @details   Reimplement this function to indicate the number of axes for SBPulseTypeEnum values.  Implementations can expect that the function will only be called with pulse types SBRF, SBGrad, and SBOther.  Returning 0 for a specific pulse type indicates that the pulse does not implement that pulse type.
+ *    @param     type A SBPulseTypeEnum value
  *    @result    The number of axes for that pulse type
  */
 - (int)numAxesForPulseType:(SBPulseType)type; 
@@ -198,6 +204,7 @@ typedef enum SBPulseTypeEnum {
  *    @brief     The maximum gradient amplitude for a given pulse gradient axis
  *    @details   This function should be used instead of SBParamsObject#gradLimit to determine the maximum allowable gradient amplitude for your particular pulse along the specified axis.  These limits are based on the number of pulse axes requested and the potential overlap from other pulses.  It is up to the pulse plugin designer to ensure that the waveforms do not exceed this limit and also observe the document-wide SBParamsObject#freelyRotatable setting
  *    @param     interval The pulse interval key of the desired interval.  Set to nil to obtain a single gradient limit applicable throughout the pulse duration.
+ *    @param     axis The pulse axis to be returned
  *    @param     rotatable Flag indicating whether the computed values should be freely rotatable to any other orthogonal set
  *    @result    The maximum gradient amplitude for the given gradient axis, as a float
  */
@@ -217,6 +224,7 @@ typedef enum SBPulseTypeEnum {
  *    @brief     The maximum gradient amplitude for a given pulse gradient axis
  *    @details   This function should be used instead of SBParamsObject#gradLimit to determine the maximum allowable gradient amplitude for your particular pulse along the specified axis.  These limits are based on the number of pulse axes requested and the potential overlap from other pulses.  It is up to the pulse plugin designer to ensure that the waveforms do not exceed this limit.  Returned values observe the document-wide SBParamsObject#freelyRotatable setting
  *    @param     interval The pulse interval key of the desired interval.  Set to nil to obtain a single gradient limit applicable throughout the pulse duration.
+ *    @param     axis The pulse axis to be returned
  *    @result    The maximum gradient amplitude for the given gradient axis, as a float
  */
 - (float)gradLimitForInterval:(NSString *)interval gradAxis:(int)axis;
@@ -348,6 +356,7 @@ typedef enum SBPulseTypeEnum {
 @end
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @protocol    SBRFPulseSharedParameters 
  *   @brief       Formal protocol for RF Pulses
  *   @details     Pulses which conform to this protocol can relay pertinent information to other classes like #SBSliceSelectGradient.  This allows the slice-selection gradient to associate with the RF pulse to accurately set parameters like thickness.  For examples, see #SBSincRF and #SBSLRExcitation.
@@ -388,6 +397,7 @@ typedef enum SBPulseTypeEnum {
 @end
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @protocol    SBReadoutSharedParameters 
  *   @brief       Formal protocol for Readout Pulses
  *   @details     Pulses which conform to this protocol can relay readout properties to other classes like #SBReadoutAxis.  For examples, see #SBReadoutInterval and #SBReadoutGradient.
@@ -405,6 +415,7 @@ typedef enum SBPulseTypeEnum {
 @end
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @protocol    SBTrDependentPulseDataProtocol 
  *   @brief       Formal protocol for TR-dependent Pulses
  *   @details     Conform to this protocol and implement trDependentPulseDataForTrNum:of: to allow pulse data updating from TR to TR (e.g., phase-encoding gradients).  For efficiency, only return the TR-dependent portions here; return static parts of the pulse in the usual way (see SBPulsePlugin#trIndependentPulseData).

@@ -15,12 +15,19 @@
  
  ***************************************************************************/
 
-//    Encapsulates the data for one segment of an entire waveform; usually, this means one TR interval
-
 #import <Cocoa/Cocoa.h>
 
 @class SBWaveformParams;
 @class SBWaveform;
+
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBWaveformSegment
+ *   @brief       Stores the data for one segment (usually, one TR) of an entire waveform
+ *   @author      HeartVista, Inc.
+ */
+
 
 @interface SBWaveformSegment : NSObject {
 @private

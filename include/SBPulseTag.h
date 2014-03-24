@@ -19,6 +19,15 @@
 #import "SBTag.h"
 #import "SBPulsePlugin.h"
 
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBPulseTag
+ *   @brief       Describes a pulse
+ *   @author      HeartVista, Inc.
+ *   @see         SBTag
+ */
+
+
 @interface SBPulseTag : SBTag {
 @private
 	float start,end;

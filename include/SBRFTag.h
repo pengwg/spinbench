@@ -18,6 +18,15 @@
 #import <Cocoa/Cocoa.h>
 #import "SBTag.h"
 
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBRFTag
+ *   @brief       Describes an RF pulse
+ *   @author      HeartVista, Inc.
+ *   @see         SBTag
+ */
+
 @interface SBRFTag : SBTag {
 @private
 	float peak;

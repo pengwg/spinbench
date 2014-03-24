@@ -15,7 +15,13 @@
  
  ***************************************************************************/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #import <Cocoa/Cocoa.h>
+#ifdef __cplusplus
+}
+#endif
 #import "SBPulsePlugin.h"
 
 @class SBPulsePlugin;
@@ -25,6 +31,7 @@
 @class SBParamsObject;
 
 /**
+ *   @ingroup     SpinBenchDesignTool Sequencer
  *   @class       SBWaveform
  *   @brief       Stores waveform-related model parameters
  *   @details     Information stored here includes the pulse and sequence plugin arrays, number of gradient axes, and the #SBWaveformParams object at the output of the sequencing pipeline.  Evaluation of the sequencing pipeline occurs in this class.  Each #SBParamsObject should be associated with exactly one #SBWaveform.  Serializations of #SBWaveform contain the following keys:
@@ -33,7 +40,7 @@
  *   - "numGradAxes"     : The number of gradient axes available to the system
  *   - "numOtherAxes"    : The number of other (non-gradient, non-RF) axes available to the system
  *
- *   Note that there is a 1:1 relationship between #SBParamsObjects and #SBWaveform.  Thus, #initWithPropertyList:params: should only be called by #SBParamsObject.  To create a new #SBWaveform, create a new #SBParamsObject.  To update the state of an existing #SBWaveform, consider #setStateEqualTo: or SBParamsObject#setFromPropertyList:.
+ *   Note that there is a 1:1 relationship between #SBParamsObject and #SBWaveform.  Thus, #initWithParams: should only be called by #SBParamsObject.  To create a new #SBWaveform, create a new #SBParamsObject.  To update the state of an existing #SBWaveform, consider #setStateEqualTo: or SBParamsObject#setFromPropertyList:.
  *   @author      HeartVista, Inc.
  *   @see         SBParamsObject
  */
@@ -53,7 +60,7 @@
 
 /**
  *    @brief     Initializes a new instance associated with a #SBParamsObject
- *    @details   Because there is a 1:1 relationship between #SBParamsObjects and #SBWaveform, this method should only be called by #SBParamsObject and subclasses.
+ *    @details   Because there is a 1:1 relationship between #SBParamsObject and #SBWaveform, this method should only be called by #SBParamsObject and subclasses.
  *    @param     _params An #SBParamsObject that is to be the parent of this #SBWaveform.
  *    @result    An initialized #SBWaveform object
  *    @note      Designated initializer.
@@ -129,6 +136,13 @@
 - (NSMutableArray *)sequencePluginArray; /**< @brief Returns an ordered array of all instantiated sequence plugins */
 
 /**
+ *   @brief     Constructs the sequencing pipeline based upon array rules
+ *   @details   When called, the #sequencePluginArray object is processed and connections between inputs and outputs are formed based upon their internal settings.
+ *   @note      It should not be necessary to explicitly call this method in plugin code.
+ */
+- (void)constructSequencePluginPipeline;
+
+/**
  *   @brief     Provides access to the output of the sequencing pipeline
  *   @details   An #SBWaveformParams object that represents the current sequence waveforms.  Through this object, direct access is provided to the waveform data, metadata, and tags.
  */
@@ -136,14 +150,14 @@
 
 /**
  *   @brief     Provides access to the empty global TR object
- *   @details   Direct access to the #SBSequencePlugin object at the beginning of most sequencing pipelines.  In any case where an explicit input connection is not present in the sequencing pipeline, the output of this #SBNewTrPlugin object is implicitly connected.
+ *   @details   Direct access to the #SBSequencePlugin object at the beginning of most sequencing pipelines.  In any case where an explicit input connection is not present in the sequencing pipeline, the output of this #SBNewTRPlugin object is implicitly connected.
  *   @note      Changing parameters of this object (including duration) may have an unexpected effect.  Use SBParamsObject#setTr: (for example) instead.
  */
 - (SBNewTRPlugin *)globalTrObject;
 
 /**
  *   @brief      Provides an array of all pulse and sequence plugins
- *   @details    This array includes the #globalTrObject.
+ *   @details    This array includes the globalTrObject.
  *   @deprecated This is an internal function and may not be available in future versions.  Please use other means of accessing this information.
  */
 - (NSArray *)pulseAndSequencePlugins;

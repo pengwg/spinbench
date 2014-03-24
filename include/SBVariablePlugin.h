@@ -20,6 +20,14 @@
 
 @class SBKey;
 
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBVariablePlugin
+ *   @brief       Abstract superclass for all Variable Plugins
+ *   @author      HeartVista, Inc.
+ */
+
 @interface SBVariablePlugin : SBPropertyListPlugin {
 
 }
@@ -27,6 +35,14 @@
 - (float)repeatInterval;
 
 @end
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @protocol    SBMultiInputValueVariableProtocol
+ *   @brief       Formal protocol for independent variables used in simulations
+ *   @author      HeartVista, Inc.
+ *   @see         SBPulsePlugin
+ */
 
 @protocol SBMultiInputValueVariableProtocol
 
@@ -75,13 +91,22 @@
 
 @end
 
+
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @protocol    SBOutputProcessingProtocol
+ *   @brief       Formal protocol for in-place post-processing of the output in simulations 
+ *   @author      HeartVista, Inc.
+ *   @see         SBPulsePlugin, SBGaussianNoise
+ */
+
 @protocol SBOutputProcessingProtocol
 
 //processOutput:length: not often used, but this is a chance for in-place postprocessing of the output (Mx,My,Mz) float
 // array to do things not modifiable at the input.  Most plugins don't implement this.  Processing occurs after averaging, if any.
 // This function must be thread-safe.  The input array is of length 3*length, with elements in order:
 // {Mx_1, My_1, Mz_1, Mx_2, My_2, Mz_2, ... Mx_length, My_length, Mz_length}.
-// See SBGaussianNoise for an example.
 - (void)processOutput:(float *)magnetization length:(int)len;
 
 @end

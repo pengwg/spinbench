@@ -17,6 +17,14 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBSWDFileManager
+ *   @brief       SpinBench Waveform Data File manager
+ *   @author      HeartVista, Inc.
+ */
+
+
 @interface SBSWDFileManager : NSObject {
   @private
   id waveObject;

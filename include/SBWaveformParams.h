@@ -24,6 +24,14 @@
 @class SBReadoutTag;
 @class SBRotation;
 
+
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBWaveformParams
+ *   @brief       Stores the data, metadata, and tags of an entire waveform
+ *   @author      HeartVista, Inc.
+ */
+
 @interface SBWaveformParams : NSObject {
 @private
 	SBSequencePlugin *parent;

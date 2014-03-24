@@ -18,6 +18,15 @@
 #import <Cocoa/Cocoa.h>
 #import "SBVariablePlugin.h"
 
+/**
+ *   @ingroup     SpinBenchDesignTool Sequencer
+ *   @class       SBVariableAxis
+ *   @brief       Variable Plugin that permits most attributes to be used as X or Y axes for standard plots
+ *   @details     It typically calculate the values of attributes over a specified range. It can also be used for averaging over that range.
+ *   @author      HeartVista, Inc.
+ *   @see         SBVariablePlugin
+ */
+
 @class SBKey;
 
 enum SBAxisTypeEnum { SBXAxis=0x00, SBYAxis=0x01, SBAveragedAxis=0xFF, SBUnassignedAxis=0xFE };
