@@ -22,6 +22,7 @@
 
     double start;
     double fov;
+    float samplingRate;
     int samples;
     int numShots;
     double readoutStartOffset,readoutEndOffset,endOffset;
