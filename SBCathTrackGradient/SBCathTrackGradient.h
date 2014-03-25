@@ -19,7 +19,7 @@
 #import "SBPulsePlugin.h"
 
 @interface SBCathTrackGradient : SBPulsePlugin <SBReadoutSharedParameters> {
-
+@private
     double start;
     double fov;
     float samplingRate;
@@ -27,6 +27,7 @@
     int numShots;
     double readoutStartOffset,readoutEndOffset,endOffset;
     double quantizationOffset;
+    double duration;
 }
 
 @end

@@ -26,13 +26,13 @@
 #import <math.h>
 
 
-#define fovInit 40.0f
-#define samplesInit 256
-#define numShotsInit 3
+static const float fovInit = 40.0f;
+static const int samplesInit = 256;
+static const int numShotsInit = 3;
 
-#define xComponentInit 1.00f
-#define yComponentInit 0.00f
-#define zComponentInit 0.00f
+static const float xComponentInit = 1.00f;
+static const float yComponentInit = 0.00f;
+static const float zComponentInit = 0.00f;
 static const float samplingRateInit = 250.0f;
 
 @implementation SBCathTrackGradient
@@ -58,12 +58,18 @@ static const float samplingRateInit = 250.0f;
 
 - (NSArray *)attributeKeys
 {
-    return [[NSArray arrayWithObjects:@"fov",@"samples",@"numShots",nil] arrayByAddingObjectsFromArray:[super attributeKeys]];
+    return [[NSArray arrayWithObjects:@"fov",@"samplingRate",@"samples",@"numShots",nil] arrayByAddingObjectsFromArray:[super attributeKeys]];
+}
+
+-(NSArray *)derivedAttributeKeys
+{
+    return [[NSArray arrayWithObjects:@"duration",nil] arrayByAddingObjectsFromArray:[super derivedAttributeKeys]];
 }
 
 - (NSString *)unitsOf:(NSString *)paramName
 {
     if([paramName isEqualToString:@"fov"]) return @"cm";
+    else if([paramName isEqualToString:@"samplingRate"]) return @"kSamp/sec";
     else if([paramName isEqualToString:@"samples"]) return @"";
     else if([paramName isEqualToString:@"numShots"]) return @"";
     return [super unitsOf:paramName];
@@ -71,7 +77,7 @@ static const float samplingRateInit = 250.0f;
 
 - (NSArray *)observedAttributeKeys
 {
-    return [[NSArray arrayWithObjects:@"gamma",@"readSamplingRate",@"receiverPhase",nil] arrayByAddingObjectsFromArray:[super observedAttributeKeys]];
+    return [[NSArray arrayWithObjects:@"gamma",@"maxReadoutRate",@"nominalGradLimitScale",@"receiverPhase",@"readoutSampleDivisor",nil] arrayByAddingObjectsFromArray:[super observedAttributeKeys]];
 }
 
 - (NSArray *)anchorKeys
@@ -99,9 +105,14 @@ static const float samplingRateInit = 250.0f;
     double readXGradLimit = [self gradLimitMagnitudeForInterval:@"readout"];
 
     double localGamma = [params gamma];
-    double localReadSamplingRate = [params readSamplingRate];
 
-    double readPlateauAmp = localReadSamplingRate*1000.0/fov/localGamma;
+    if(samplingRate > [params maxReadoutRate]) {
+        [self willChangeValueForKey:@"samplingRate"];
+        samplingRate = [params maxReadoutRate];
+        [self didChangeValueForKey:@"samplingRate"];
+    }
+
+    double readPlateauAmp = samplingRate*1000.0/fov/localGamma;
 
     BOOL savedAutoCalculateOnAttributeChange = autoCalculateOnAttributeChange;
     autoCalculateOnAttributeChange = NO;
@@ -109,14 +120,14 @@ static const float samplingRateInit = 250.0f;
     // if readplateauamp is too large -> increase fov
     if(readXGradLimit > 0.0 && readPlateauAmp > readXGradLimit) {
         [self willChangeValueForKey:@"fov"];
-        fov =  localReadSamplingRate*1000.0/localGamma/readXGradLimit;
+        fov =  samplingRate*1000.0/localGamma/readXGradLimit;
         readPlateauAmp = readXGradLimit;
         [self didChangeValueForKey:@"fov"];
     }
 
     autoCalculateOnAttributeChange = savedAutoCalculateOnAttributeChange;
 
-    double readPlateauDuration = samples / localReadSamplingRate;
+    double readPlateauDuration = samples / samplingRate;
     double plateauArea = readPlateauAmp * readPlateauDuration;
 
     SBOptimizedGradient *prewinder = [SBOptimizedGradient gradientWithAxes:1];
@@ -130,6 +141,13 @@ static const float samplingRateInit = 250.0f;
     readoutStartOffset = [prewinder duration];
     readoutEndOffset = readoutStartOffset+readPlateauDuration;
     endOffset = readoutEndOffset + [rewinder duration];
+
+    const double newDuration = endOffset;
+    if(newDuration != duration) {
+        [self willChangeValueForKey:@"duration"];
+        duration = newDuration;
+        [self didChangeValueForKey:@"duration"];
+    }
 
     //changing anchor timings might make it necessary to update the position.  do that here.
     [self setPulsePositionFromAnchor:anchor];
@@ -179,8 +197,18 @@ static const float samplingRateInit = 250.0f;
 {
     double readGradLimit = [self gradLimitMagnitudeForInterval:@"readout"];
     if(*valObj == nil) *valObj = [NSNumber numberWithDouble:fov];
-    double limit = [params readSamplingRate]*1000.0/(readGradLimit)/[params gamma];
+    double limit = samplingRate*1000.0/(readGradLimit)/[params gamma];
     if([*valObj doubleValue] < limit)
+        *valObj = [NSNumber numberWithDouble:limit];
+    return YES;
+}
+
+-(BOOL)validateSamplingRate:(id *)valObj error:(NSError **)outError
+{
+    if((*valObj == nil) || ([*valObj doubleValue] <= 0.0))
+    *valObj = [NSNumber numberWithDouble:samplingRate];
+    double limit = [params maxReadoutRate];
+    if([*valObj doubleValue] > limit)
         *valObj = [NSNumber numberWithDouble:limit];
     return YES;
 }
@@ -257,7 +285,7 @@ static const float samplingRateInit = 250.0f;
     [tag setReadoutEnd:[self readoutEnd]+quantizationOffset];
     [tag setReadoutReferencePoint:[self readoutCenter]+quantizationOffset];
     [tag setPhase:[params receiverPhase]];
-    [tag setSamplingRate:[params readSamplingRate]];
+    [tag setSamplingRate:samplingRate];
     [tag setViewIndex:trNum of:numTr forKey:@"index" object:self];
 
     float *tagRes = [tag resolution];
