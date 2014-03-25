@@ -33,11 +33,12 @@
 #define xComponentInit 1.00f
 #define yComponentInit 0.00f
 #define zComponentInit 0.00f
-
+static const float samplingRateInit = 250.0f;
 
 @implementation SB2DPRGradient
 
 - (id)initWithPropertyList:(NSMutableDictionary *)_plist params:(SBParamsObject *)_params {
+    samplingRate = samplingRateInit;
     self = [super initWithPropertyList:_plist params:_params];
     if(self) {
         if(!_plist) {
