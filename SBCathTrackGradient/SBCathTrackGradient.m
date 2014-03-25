@@ -142,18 +142,18 @@ static const float samplingRateInit = 250.0f;
     readoutEndOffset = readoutStartOffset+readPlateauDuration;
     endOffset = readoutEndOffset + [rewinder duration];
 
-    const double newDuration = endOffset;
-    if(newDuration != duration) {
-        [self willChangeValueForKey:@"duration"];
-        duration = newDuration;
-        [self didChangeValueForKey:@"duration"];
-    }
-
     //changing anchor timings might make it necessary to update the position.  do that here.
     [self setPulsePositionFromAnchor:anchor];
 
     // offset to 2us boundaries
     quantizationOffset = ceil((start+readoutStartOffset)*500.0) / 500.0 - readoutStartOffset - start;
+
+    const double newDuration = ceil((quantizationOffset + endOffset) * 500.0) / 500.0;
+    if(newDuration != duration) {
+        [self willChangeValueForKey:@"duration"];
+        duration = newDuration;
+        [self didChangeValueForKey:@"duration"];
+    }
 
     double timeStep = 1.0/[params waveSamplingRate];
     int startPosition = (int)floor(start/timeStep);
